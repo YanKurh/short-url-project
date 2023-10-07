@@ -1,15 +1,26 @@
 package goit.com.shorturlproject.user;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Builder
-@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
 
+    @Getter
+    @Setter
     private String userName;
+
+    @Getter
+    @Setter
     private String email;
+
+    @Getter
+    @Setter
     private String login;
+
+    @Getter
+    @Setter
     private String password;
 
     public static UserDTO fromUser(User user){
