@@ -1,28 +1,40 @@
 package goit.com.shorturlproject.url;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UrlLinkDTO {
 
+    @Getter
     private String longUrl;
+
+    @Getter
+    @Setter
+    private String shortUrl;
+
+    @Getter
+    @Setter
     private LocalDateTime createdAt;
+
+    @Getter
     private int clickTimes;
+
+    @Getter
+    @Setter
+    private LocalDateTime expirationDate;
 
     public static UrlLinkDTO fromUrlLink(UrlLink urlLink){
 
         return UrlLinkDTO.builder()
                 .longUrl(urlLink.getLongUrl())
+                .shortUrl(urlLink.getShortUrl())
                 .createdAt(urlLink.getCreatedAt())
                 .clickTimes(urlLink.getClickTimes())
+                .expirationDate(urlLink.getExpirationDate())
                 .build();
     }
 
@@ -30,8 +42,10 @@ public class UrlLinkDTO {
 
         UrlLink url = new UrlLink();
         url.setLongUrl(urlLinkDto.getLongUrl());
+        url.setShortUrl(urlLinkDto.getShortUrl());
         url.setCreatedAt(urlLinkDto.getCreatedAt());
         url.setClickTimes(urlLinkDto.getClickTimes());
+        url.setExpirationDate(urlLinkDto.getExpirationDate());
 
         return url;
 
