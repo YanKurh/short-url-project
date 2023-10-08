@@ -1,7 +1,6 @@
 package goit.com.shorturlproject.url;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
