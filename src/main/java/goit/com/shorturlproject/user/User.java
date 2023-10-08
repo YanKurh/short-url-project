@@ -7,22 +7,28 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "\"user\"")
 @RequiredArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     @Getter
     @Setter
     private long id;
 
     @Getter
     @Setter
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Getter
+    @Setter
+    @Column(name = "last_name")
+    private String lastName;
 
     @Getter
     @Setter
@@ -42,6 +48,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     @Getter
     @Setter
-    private HashSet<UrlLink> links;
+    private Set<UrlLink> links = new HashSet<>();
 
 }

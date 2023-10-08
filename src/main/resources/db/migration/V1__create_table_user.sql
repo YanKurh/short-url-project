@@ -1,6 +1,7 @@
 CREATE TABLE "user" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_name VARCHAR(500),
+    first_name VARCHAR(200),
+    last_name VARCHAR(200),
     email VARCHAR(1000),
     login VARCHAR(1000),
     password VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100)
