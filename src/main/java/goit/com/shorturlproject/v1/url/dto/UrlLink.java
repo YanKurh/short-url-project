@@ -1,58 +1,55 @@
-package goit.com.shorturlproject.url;
+package goit.com.shorturlproject.v1.url.dto;
 
-import goit.com.shorturlproject.user.User;
+import goit.com.shorturlproject.v1.user.dto.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
 @Entity
 @RequiredArgsConstructor
+@Table(name = "urls")
 public class UrlLink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     @Setter
     private long id;
 
-    @Column(name = "long_URL")
-    @Getter
+    @Column(name = "long_url")
     @Setter
     private String longUrl;
 
-    @Column(name = "short_URL")
-    @Getter
+    @Column(name = "short_url")
     @Setter
     private String shortUrl;
 
     @Column(name = "created_at")
-    @Getter
     @Setter
     private LocalDateTime createdAt;
 
     @Column(name = "click_times")
-    @Getter
     @Setter
     private int clickTimes;
 
     @Column(name = "expiration_date")
-    @Getter
     @Setter
     private LocalDateTime expirationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Getter
     @Setter
     private User user;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UrlLink)) return false;
-        UrlLink urlLink = (UrlLink) o;
+        if (!(o instanceof UrlLink urlLink)) return false;
         return longUrl.equals(urlLink.longUrl) && shortUrl.equals(urlLink.shortUrl);
     }
 
