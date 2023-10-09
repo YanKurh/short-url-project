@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.v1.conf;
+/*package goit.com.shorturlproject.v1.conf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -12,3 +12,4 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/links").setViewName("links");
     }
 }
+*/
