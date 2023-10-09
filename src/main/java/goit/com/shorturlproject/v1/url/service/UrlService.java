@@ -13,7 +13,9 @@ public interface UrlService {
 
     Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
 
-    Optional<UrlLink> findUrlLinkByShortUrl(String shortUrl);
+    UrlLink findUrlLinkByShortUrl(String shortUrl);
+
+    void updateByClick(UrlLink urlLink);
 
     void save(UrlLink urlLink);
 

@@ -1,10 +1,13 @@
 package goit.com.shorturlproject.v1.url.controller;
 
+import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @RestController
 public class UrlController {
@@ -16,8 +19,10 @@ public class UrlController {
 
     @RequestMapping("/{shortUrl}")
     public ModelAndView redirectFromShortUrl(@PathVariable String shortUrl) {
-        String longUrlByShort = urlService.findLongUrlByShort(shortUrl);
-        return new ModelAndView("redirect:" + longUrlByShort);
+
+        UrlLink urlLinkByShortUrl = urlService.findUrlLinkByShortUrl(shortUrl);
+        urlService.updateByClick(urlLinkByShortUrl);
+        return new ModelAndView("redirect:" + urlLinkByShortUrl.getLongUrl());
     }
 
 }

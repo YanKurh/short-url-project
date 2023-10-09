@@ -6,6 +6,7 @@ import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +29,18 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Optional<UrlLink> findUrlLinkByShortUrl(String shortUrl) {
-        return urlRepository.findUrlLinkByShortUrl(shortUrl);
+    public UrlLink findUrlLinkByShortUrl(String shortUrl) {
+        Optional<UrlLink> urlLinkByShortUrl = urlRepository.findUrlLinkByShortUrl(shortUrl);
+        if (urlLinkByShortUrl.isEmpty()) {
+            throw new UrlNotFoundException(String.format("Url not found %s", shortUrl));
+        }
+        return urlLinkByShortUrl.get();
+    }
+
+    @Transactional
+    @Override
+    public void updateByClick(UrlLink urlLink) {
+        urlRepository.updateClickTimes(urlLink.getId(), urlLink.getClickTimes() + 1);
     }
 
     @Override

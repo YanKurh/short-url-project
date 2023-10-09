@@ -2,6 +2,7 @@ package goit.com.shorturlproject.v1.url.repository;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,10 @@ public interface UrlRepository extends JpaRepository<UrlLink, Long> {
     Optional<String> findLongUrlByShortUrl(@Param("shortUrl") String shortUrl);
 
     Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
+
+    @Modifying
+    @Query("UPDATE UrlLink ul SET ul.clickTimes = :clickTimes WHERE ul.id = :urlLinkId")
+    void updateClickTimes(@Param("urlLinkId") Long urlLinkId, @Param("clickTimes") int clickTimes);
 
     Optional<UrlLink> findUrlLinkByShortUrl(String shortUrl);
 
