@@ -14,7 +14,7 @@ java {
 
 bootJar {
     archiveBaseName = 'Link'
-    archiveVersion =  'V1.0.0'
+    archiveVersion = 'V1.0.0'
     exclude '**/application.properties'
     exclude '**/db/migration/local'
 }
@@ -38,8 +38,11 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.2'
+
 }
 
 tasks.named('test') {

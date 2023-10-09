@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.conf;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +31,7 @@ public class WebSecurityConfiguration {
                             requests
 // permitAll() - дозвіл всім без регістрації дивитися сторінки при запиті методу GET
                                     .requestMatchers(HttpMethod.GET, "/public").permitAll()
+                                    //.requestMatchers("/users**")
                                     .anyRequest()
                                     .authenticated(); // інші запити авторизуємо
                         }
@@ -44,8 +46,8 @@ public class WebSecurityConfiguration {
         return http.build();
     }
 
-
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username,password, enabled from users where username =?")
