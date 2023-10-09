@@ -1,6 +1,5 @@
 package goit.com.shorturlproject.v1.url.service;
 
-import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ShortUrlGenerator {
         myChars = new char[62];
         //ініціалізуємо масив буквами
         for (int i = 0; i < 62; i++) {
-            int j = 0;
+            int j;
             if (i < 10) {
                 j = i + 48;
             } else if (i <= 35) {
@@ -34,13 +33,10 @@ public class ShortUrlGenerator {
         }
     }
 
-    public void getKey(String longURL) {
+    public String getKey() {
         String key = generateKey();
         log.debug("short url {}", key);
-        UrlLink urlLink = new UrlLink();
-        urlLink.setLongUrl(longURL);
-        urlLink.setShortUrl(key);
-        urlService.save(urlLink);
+        return key;
     }
 
     private String generateKey() {

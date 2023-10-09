@@ -1,6 +1,7 @@
 package goit.com.shorturlproject.v1.url.service;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
+import goit.com.shorturlproject.v1.url.exceptions.UrlNotValidException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,14 +20,16 @@ public class UrlShortener {
     }
 
 
-    public void shortenURL(String longURL) {
+    public UrlLink shortenURL(String longURL) {
         if (urlValidator.isValidURL(longURL)) {
             Optional<UrlLink> urlLinkByLongUrl = urlService.findUrlLinkByLongUrl(longURL);
             if (urlLinkByLongUrl.isEmpty()) {
-                urlGenerator.getKey(longURL);
+                String key = urlGenerator.getKey();
+                return urlService.saveAndFlush(key, longURL);
+            } else {
+                return urlLinkByLongUrl.get();
             }
         }
+        throw new UrlNotValidException(String.format("Url not valid %s", longURL));
     }
-
-
 }

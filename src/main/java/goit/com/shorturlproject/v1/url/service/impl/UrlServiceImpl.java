@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,9 +17,17 @@ import java.util.Set;
 public class UrlServiceImpl implements UrlService {
     private final UrlRepository urlRepository;
 
+
     @Override
-    public Set<UrlLink> findAllLinksByUserId(Long userId) {
-        return urlRepository.findAllByUserId(userId);
+    public UrlLink saveAndFlush(String shortUrl, String longUrl) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expirationDate = now.plusHours(24);
+        UrlLink urlLink = new UrlLink();
+        urlLink.setShortUrl(shortUrl);
+        urlLink.setLongUrl(longUrl);
+        urlLink.setCreatedAt(now);
+        urlLink.setExpirationDate(expirationDate);
+        return urlRepository.saveAndFlush(urlLink);
     }
 
     @Override
@@ -44,31 +51,8 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public void save(UrlLink urlLink) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expirationDate = now.plusHours(24);
-        urlLink.setCreatedAt(now);
-        urlLink.setExpirationDate(expirationDate);
-        urlRepository.save(urlLink);
-    }
-
-    @Override
-    public List<UrlLink> getAllLinks() {
-        return urlRepository.findAll();
-    }
-
-    @Override
     public Set<String> findAllShortLinks() {
         return urlRepository.findAllShortUrlLinks();
-    }
-
-    @Override
-    public String findLongUrlByShort(String shortUrl) {
-        Optional<String> longUrlByShortUrl = urlRepository.findLongUrlByShortUrl(shortUrl);
-        if (longUrlByShortUrl.isEmpty()) {
-            throw new UrlNotFoundException(String.format("url not fount %s", shortUrl));
-        }
-        return longUrlByShortUrl.get();
     }
 }
 
