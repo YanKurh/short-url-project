@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.v1.conf;
+/* package goit.com.shorturlproject.v1.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -56,3 +56,4 @@ public class WebSecurityConfiguration {
 
 
 }
+*/
