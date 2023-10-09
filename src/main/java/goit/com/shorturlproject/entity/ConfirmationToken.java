@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.entity.request;
+package goit.com.shorturlproject.entity;
 import java.util.Date;
 import java.util.UUID;
 
@@ -33,25 +33,25 @@ public class ConfirmationToken {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @OneToOne(targetEntity = SignupRequest.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
-    private SignupRequest signupRequest;
+    private User user;
 
     public ConfirmationToken() {
     }
 
-    public ConfirmationToken(SignupRequest signupRequest) {
-        this.signupRequest = signupRequest;
+    public ConfirmationToken(User user) {
+        this.user = user;
         createdDate = new Date();
         confirmationToken = UUID.randomUUID().toString();
     }
 
-    public SignupRequest getEntity() {
-        return signupRequest;
+    public User getEntity() {
+        return user;
     }
 
-    public void setUserEntity(SignupRequest signupRequest) {
-        this.signupRequest = signupRequest;
+    public void setUserEntity(User user) {
+        this.user = user;
     }
 
 }

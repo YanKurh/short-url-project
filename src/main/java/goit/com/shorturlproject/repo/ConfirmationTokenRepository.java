@@ -1,5 +1,5 @@
 package goit.com.shorturlproject.repo;
-import goit.com.shorturlproject.entity.request.ConfirmationToken;
+import goit.com.shorturlproject.entity.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

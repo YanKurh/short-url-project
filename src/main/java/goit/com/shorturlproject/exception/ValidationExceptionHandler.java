@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
-public class ValidationExceptionHandler {
+public final class ValidationExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<?> notValid(MethodArgumentNotValidException ex, HttpServletRequest request) {

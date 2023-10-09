@@ -1,29 +1,37 @@
 package goit.com.shorturlproject.controller;
-import goit.com.shorturlproject.entity.request.SignupRequest;
-import goit.com.shorturlproject.service.UserService;
+import goit.com.shorturlproject.entity.User;
+import goit.com.shorturlproject.service.impl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class RegistrationController {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
-    @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "registration-form"; // Это имя представления (HTML формы регистрации)
+
+    @GetMapping("/user/registration")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "registration-form";
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@ModelAttribute SignupRequest signupRequest) {
-        return userService.saveUser(signupRequest);
-    }
 
-    @GetMapping("/confirm-account")
-    public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
-        return userService.confirmEmail(confirmationToken);
     }
-}
+   // @GetMapping("/confirm-account")
+    //public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+       // return userService.confirmEmail(confirmationToken);
+    //}
