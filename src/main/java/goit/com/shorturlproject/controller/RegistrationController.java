@@ -1,4 +1,5 @@
 package goit.com.shorturlproject.controller;
+import goit.com.shorturlproject.dto.UserDto;
 import goit.com.shorturlproject.entity.User;
 import goit.com.shorturlproject.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,11 +25,24 @@ public class RegistrationController {
 
 
     @GetMapping("/user/registration")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
+    public String showRegistrationForm(final HttpServletRequest request, final Model model) {
+        LOGGER.debug("Rendering registration page.");
+        final UserDto accountDto = new UserDto();
+        model.addAttribute("user", accountDto);
         return "registration-form";
     }
 
+    @PostMapping("/user/registration")
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid final UserDto userDto, final HttpServletRequest request, final Errors errors) {
+        LOGGER.debug("Registering user account with information: {}", userDto);
+
+        try {
+            final User registered = userService.registerNewUserAccount(userDto); } catch (final RuntimeException ex) {
+            LOGGER.warn("Unable to register user", ex);
+            return new ModelAndView("emailError", "user", userDto);
+        }
+        return new ModelAndView("successRegister", "user", userDto);
+    }
 
     }
    // @GetMapping("/confirm-account")

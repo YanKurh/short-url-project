@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+   // @Autowired
+    //private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
         user.setFirstName(accountDto.getFirstName());
         user.setLastName(accountDto.getLastName());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        user.setPassword(accountDto.getPassword());   //(passwordEncoder.encode(accountDto.getPassword()));
         user.setEmail(accountDto.getEmail());
         return userRepository.save(user);
     }
