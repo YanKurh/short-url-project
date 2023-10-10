@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.url.controller;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class UrlControllerTest {
+class UrlControllerTest implements ITestContainer {
 
     private UrlService urlService;
     private MockMvc mockMvc;

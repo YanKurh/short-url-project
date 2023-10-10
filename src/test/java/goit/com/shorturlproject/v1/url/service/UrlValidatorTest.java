@@ -1,12 +1,13 @@
 package goit.com.shorturlproject.v1.url.service;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UrlValidatorTest {
+class UrlValidatorTest implements ITestContainer {
 
     private UrlValidator urlValidator;
 

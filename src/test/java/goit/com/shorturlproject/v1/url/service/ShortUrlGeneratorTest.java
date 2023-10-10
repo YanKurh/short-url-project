@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.url.service;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,7 +14,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class ShortUrlGeneratorTest {
+class ShortUrlGeneratorTest implements ITestContainer {
 
     @Mock
     private UrlService urlService;
