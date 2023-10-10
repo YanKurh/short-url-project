@@ -11,8 +11,8 @@ CREATE TABLE "user"
 CREATE TABLE url
 (
     id              INTEGER PRIMARY KEY AUTO_INCREMENT,
-    long_URL        VARCHAR(100000),
-    short_URL       VARCHAR(50),
+    long_url        VARCHAR(100000),
+    short_url       VARCHAR(50),
     created_at      DATE,
     click_times     INTEGER,
     expiration_date DATE,

@@ -10,41 +10,29 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Setter
 @Entity
 @RequiredArgsConstructor
-@Table(name = "urls")
+@Table(name = "url")
 public class UrlLink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter
-    private long id;
+    private Long id;
 
-    @Column(name = "long_url")
-    @Setter
     private String longUrl;
 
-    @Column(name = "short_url")
-    @Setter
     private String shortUrl;
 
-    @Column(name = "created_at")
-    @Setter
     private LocalDateTime createdAt;
 
-    @Column(name = "click_times")
-    @Setter
-    private int clickTimes;
+    private Integer clickTimes;
 
-    @Column(name = "expiration_date")
-    @Setter
     private LocalDateTime expirationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Setter
     private User user;
-
 
     @Override
     public boolean equals(Object o) {

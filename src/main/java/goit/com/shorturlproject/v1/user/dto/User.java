@@ -9,43 +9,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
+@Setter
 @Entity
-@Table(name = "users")
+@Table
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @Setter
-    private long id;
+    private Long id;
 
-    @Setter
-    @Column(name = "user_name")
-    private String userName;
+    private String firstName;
 
-    @Setter
-    @Column(name = "email")
+    private String lastName;
+
     private String email;
 
-    @Setter
-    @Column(name = "login")
     private String login;
 
-    @Setter
-    @Column(name = "password")
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Setter
     private Set<UrlLink> links;
 
     public User() {
         links = new HashSet<>();
     }
 
-    public User(String userName, String email, String login, String password) {
+    public User(String firstName, String lastName, String email, String login, String password) {
         this();
-        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
