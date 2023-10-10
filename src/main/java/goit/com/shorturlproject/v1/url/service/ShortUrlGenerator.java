@@ -44,7 +44,7 @@ public class ShortUrlGenerator {
         boolean flag = true;
         Set<String> allShortLinks = urlService.findAllShortLinks();
         while (flag) {
-            for (int i = 0; i <= keyLength; i++) {
+            for (int i = 0; i < keyLength; i++) {
                 key.append(myChars[myRand.nextInt(62)]);
             }
             if (!allShortLinks.contains(String.valueOf(key))) {
