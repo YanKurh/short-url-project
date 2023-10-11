@@ -3,6 +3,7 @@ package goit.com.shorturlproject.v1.url.service.impl;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.exceptions.UrlNotFoundException;
 import goit.com.shorturlproject.v1.url.repository.UrlRepository;
+import goit.com.shorturlproject.v1.user.dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,16 +37,17 @@ class UrlServiceImplTest {
         String longUrl = "https://www.example.com";
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationDate = now.plusHours(24);
-
+        User user = new User();
         UrlLink expectedUrlLink = new UrlLink();
         expectedUrlLink.setShortUrl(shortUrl);
         expectedUrlLink.setLongUrl(longUrl);
         expectedUrlLink.setCreatedAt(now);
+        expectedUrlLink.setUser(user);
         expectedUrlLink.setExpirationDate(expirationDate);
 
-        when(urlRepository.saveAndFlush(any())).thenReturn(expectedUrlLink);
+        when(urlRepository.saveAndFlush(any(UrlLink.class))).thenReturn(expectedUrlLink);
 
-        UrlLink result = urlService.saveAndFlush(shortUrl, longUrl);
+        UrlLink result = urlService.saveAndFlush(shortUrl, longUrl, user);
 
         assertEquals(expectedUrlLink, result);
     }

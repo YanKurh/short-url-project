@@ -1,6 +1,5 @@
 package goit.com.shorturlproject.v1.url.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
