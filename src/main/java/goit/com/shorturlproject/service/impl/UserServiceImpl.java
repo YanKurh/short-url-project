@@ -1,15 +1,11 @@
 package goit.com.shorturlproject.service.impl;
 import goit.com.shorturlproject.dto.UserDto;
-
 import goit.com.shorturlproject.entity.User;
 import goit.com.shorturlproject.exception.UserAlreadyExistException;
-
 import goit.com.shorturlproject.repo.UserRepository;
 import goit.com.shorturlproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
 
-   // @Autowired
+    // @Autowired
     //private PasswordEncoder passwordEncoder;
 
 
@@ -67,8 +63,7 @@ public class UserServiceImpl implements UserService {
 
 
 
- /* @Autowired
-    private UserRepository userRepository;
+ /*
 
     @Autowired
     ConfirmationTokenRepository confirmationTokenRepository;

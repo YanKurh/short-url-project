@@ -1,19 +1,14 @@
 package goit.com.shorturlproject.dto;
 
-import goit.com.shorturlproject.url.UrlLink;
 import goit.com.shorturlproject.validation.PasswordMatching;
 import goit.com.shorturlproject.validation.StrongPassword;
 import goit.com.shorturlproject.validation.ValidEmail;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @PasswordMatching(
         password = "password",
