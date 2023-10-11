@@ -1,14 +1,5 @@
 name: Java CI Group1
 
-env:
-  LOCAL_DB_URL: ${{ vars.LOCAL_DB_URL }}
-  LOCAL_DB_NAME: ${{ vars.LOCAL_DB_NAME }}
-  LOCAL_DB_PASS: ${{ vars.LOCAL_DB_PASS }}
-  PROD_DB_URL: ${{ vars.PROD_DB_URL }}
-  PROD_DB_PASS: ${{ vars.PROD_DB_PASS }}
-  PROD_DB_USER: ${{ vars.PROD_DB_USER }}
-  PR0D_SECURITY_PASS: ${{ vars.PR0D_SECURITY_PASS }}
-
 on:
   push:
     branches: [ "dev" ]
@@ -25,6 +16,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Set Environment Variables
+        run: |
+          export DB_URL="${{ env.LOCAL_DB_URL }}"
+          export DB_NAME="${{ env.LOCAL_DB_NAME }}"
+          export DB_PASS="${{ env.LOCAL_DB_PASS }}"
+          export PROD_DB_URL="${{ env.PROD_DB_URL }}"
+          export PROD_DB_PASS="${{ env.PROD_DB_PASS }}"
+          export PROD_DB_USER="${{ env.PROD_DB_USER }}"
+          export PROD_SECURITY_PASS="${{ env.PROD_SECURITY_PASS }}"
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
