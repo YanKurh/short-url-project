@@ -18,13 +18,13 @@ jobs:
       - uses: actions/checkout@v3
       - name: Set Environment Variables
         run: |
-          export DB_URL="${{ env.LOCAL_DB_URL }}"
-          export DB_NAME="${{ env.LOCAL_DB_NAME }}"
-          export DB_PASS="${{ env.LOCAL_DB_PASS }}"
-          export PROD_DB_URL="${{ env.PROD_DB_URL }}"
-          export PROD_DB_PASS="${{ env.PROD_DB_PASS }}"
-          export PROD_DB_USER="${{ env.PROD_DB_USER }}"
-          export PROD_SECURITY_PASS="${{ env.PROD_SECURITY_PASS }}"
+          export DB_URL=${{ envs.LOCAL_DB_URL }}
+          export DB_NAME=${{ envs.LOCAL_DB_NAME }}
+          export DB_PASS=${{ envs.LOCAL_DB_PASS }}
+          export PROD_DB_URL=${{ envs.PROD_DB_URL }}
+          export PROD_DB_PASS=${{ envs.PROD_DB_PASS }}
+          export PROD_DB_USER=${{ envs.PROD_DB_USER }}
+          export PROD_SECURITY_PASS=${{ envs.PROD_SECURITY_PASS }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
