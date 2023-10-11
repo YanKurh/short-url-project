@@ -2,11 +2,13 @@ package goit.com.shorturlproject.v1.url.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
-import goit.com.shorturlproject.v1.url.service.UrlShortener;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("v1/")
 public class UrlController {
     private final UrlService urlService;
 
