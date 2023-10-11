@@ -40,7 +40,8 @@ class UrlShortenerTest {
         UrlLink urlLink = new UrlLink();
         urlLink.setLongUrl(longURL);
         urlLink.setShortUrl(shortKey);
-        User user = new User(); // Create a User object for testing purposes
+        User user = new User();
+        urlLink.setUser(user);
 
         when(urlValidator.isValidURL(longURL)).thenReturn(true);
         when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Optional.empty());
@@ -63,7 +64,8 @@ class UrlShortenerTest {
         UrlLink urlLink = new UrlLink();
         urlLink.setLongUrl(longURL);
         urlLink.setShortUrl(shortKey);
-        User user = new User(); // Create a User object for testing purposes
+        User user = new User();
+        urlLink.setUser(user);
 
         when(urlValidator.isValidURL(longURL)).thenReturn(true);
         when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Optional.of(urlLink));
