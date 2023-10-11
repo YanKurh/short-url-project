@@ -2,7 +2,6 @@ package goit.com.shorturlproject.v1.url.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
-import goit.com.shorturlproject.v1.url.service.UrlShortener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,7 +38,7 @@ class UrlControllerTest {
 
         when(urlService.findUrlLinkByShortUrl(shortUrl)).thenReturn(urlLink);
 
-        mockMvc.perform(get("/" + shortUrl))
+        mockMvc.perform(get("/v1/" + shortUrl))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(longUrl));
 

@@ -4,6 +4,7 @@ import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.exceptions.UrlNotFoundException;
 import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.url.service.UrlService;
+import goit.com.shorturlproject.v1.user.dto.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,14 @@ public class UrlServiceImpl implements UrlService {
 
 
     @Override
-    public UrlLink saveAndFlush(String shortUrl, String longUrl) {
+    public UrlLink saveAndFlush(String shortUrl, String longUrl, User user) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationDate = now.plusHours(24);
         UrlLink urlLink = new UrlLink();
         urlLink.setShortUrl(shortUrl);
         urlLink.setLongUrl(longUrl);
         urlLink.setCreatedAt(now);
+        urlLink.setUser(user);
         urlLink.setExpirationDate(expirationDate);
         return urlRepository.saveAndFlush(urlLink);
     }
@@ -39,7 +41,7 @@ public class UrlServiceImpl implements UrlService {
     public UrlLink findUrlLinkByShortUrl(String shortUrl) {
         Optional<UrlLink> urlLinkByShortUrl = urlRepository.findUrlLinkByShortUrl(shortUrl);
         if (urlLinkByShortUrl.isEmpty()) {
-            throw new UrlNotFoundException(String.format("Url not found %s", shortUrl));
+            throw new UrlNotFoundException(shortUrl);
         }
         return urlLinkByShortUrl.get();
     }
