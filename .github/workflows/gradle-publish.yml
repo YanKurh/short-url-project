@@ -1,3 +1,5 @@
+name: Java CI Group1
+
 on:
   push:
     branches: [ "dev" ]
@@ -13,22 +15,32 @@ jobs:
       packages: write
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-         
-    - uses: browser-actions/setup-chrome@latest
-    - run: chrome --version     
- 
-    - name: Build with Gradle
-      run: gradle clean test
-       
-    - name: Archive Rest Results
-      uses: actions/upload-artifact@v3
-      if: success() || failure()
-      with:
-        name: test-results
-        path: GradleReports/emailable-report.html
+      - uses: actions/checkout@v3
+      - name: Set Environment Variables
+        run: |
+          export DB_URL="${{ env.LOCAL_DB_URL }}"
+          export DB_NAME="${{ env.LOCAL_DB_NAME }}"
+          export DB_PASS="${{ env.LOCAL_DB_PASS }}"
+          export PROD_DB_URL="${{ env.PROD_DB_URL }}"
+          export PROD_DB_PASS="${{ env.PROD_DB_PASS }}"
+          export PROD_DB_USER="${{ env.PROD_DB_USER }}"
+          export PROD_SECURITY_PASS="${{ env.PROD_SECURITY_PASS }}"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+
+      - name: Build with Gradle
+        run: gradle clean test
+
+      - name: Archive Rest Results
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-results
+          path: GradleReports/emailable-report.html
