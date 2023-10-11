@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.url.service.impl;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.exceptions.UrlNotFoundException;
 import goit.com.shorturlproject.v1.url.repository.UrlRepository;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-class UrlServiceImplTest {
+class UrlServiceImplTest implements ITestContainer {
 
     @Mock
     private UrlRepository urlRepository;

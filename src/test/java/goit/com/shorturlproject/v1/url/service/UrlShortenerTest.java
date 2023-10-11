@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.url.service;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.exceptions.UrlNotValidException;
 import goit.com.shorturlproject.v1.user.dto.User;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class UrlShortenerTest {
+class UrlShortenerTest  implements ITestContainer {
 
     private UrlShortener urlShortener;
 
