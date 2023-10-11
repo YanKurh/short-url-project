@@ -44,14 +44,14 @@ import java.util.Set;
 
 
 
-   @OneToMany(mappedBy = "user")
-   private Set<UrlLink> links = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<UrlLink> links = new HashSet<>();
 
     private boolean isEnabled;
 
 
-    //  @Column(name = "login")
-    // private String login;
+     @Column(name = "login")
+      private String login;
   }
 
 

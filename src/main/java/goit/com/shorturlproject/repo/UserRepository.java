@@ -9,7 +9,4 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     @Override
     void delete(User user);
-
-    // User findByEmailIgnoreCase(String emailId);
-   // Boolean existsByEmail(String email);
 }
