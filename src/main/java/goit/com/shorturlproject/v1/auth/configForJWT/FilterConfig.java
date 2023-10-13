@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.v1.conf;
+package goit.com.shorturlproject.v1.auth.configForJWT;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

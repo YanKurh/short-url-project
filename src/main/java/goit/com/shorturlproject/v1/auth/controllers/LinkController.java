@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.v1.controllers;
+package goit.com.shorturlproject.v1.auth.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

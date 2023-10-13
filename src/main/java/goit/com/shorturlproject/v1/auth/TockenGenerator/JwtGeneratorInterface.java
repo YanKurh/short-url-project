@@ -1,6 +1,4 @@
-package goit.com.shorturlproject.v1.TockenGenerator;
-
-import goit.com.shorturlproject.v1.user.User;
+package goit.com.shorturlproject.v1.auth.TockenGenerator;
 
 import java.util.Map;
 

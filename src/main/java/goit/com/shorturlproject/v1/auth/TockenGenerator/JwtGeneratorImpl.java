@@ -1,6 +1,5 @@
-package goit.com.shorturlproject.v1.TockenGenerator;
+package goit.com.shorturlproject.v1.auth.TockenGenerator;
 
-import goit.com.shorturlproject.v1.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

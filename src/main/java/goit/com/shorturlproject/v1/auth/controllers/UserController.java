@@ -1,9 +1,9 @@
-package goit.com.shorturlproject.v1.controllers;
+package goit.com.shorturlproject.v1.auth.controllers;
 
-import goit.com.shorturlproject.v1.TockenGenerator.JwtGeneratorInterface;
-import goit.com.shorturlproject.v1.exception.UserNotFoundException;
-import goit.com.shorturlproject.v1.service.UserService;
-import goit.com.shorturlproject.v1.user.User;
+import goit.com.shorturlproject.v1.auth.TockenGenerator.JwtGeneratorInterface;
+
+import goit.com.shorturlproject.v1.user.dto.User;
+import goit.com.shorturlproject.v1.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +26,13 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> postUser(@RequestBody User user){
         try{
-            userService.saveUser(user);
+            userService.save(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
-    @PostMapping("/login")
+   /* @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
             if(user.getEmail() == null || user.getPassword() == null) {
@@ -46,5 +46,5 @@ public class UserController {
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
-    }
+    }*/
 }
