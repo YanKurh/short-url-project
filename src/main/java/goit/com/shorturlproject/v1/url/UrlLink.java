@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.url;
 
+import goit.com.shorturlproject.v1.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

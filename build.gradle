@@ -41,12 +41,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.2'
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
 
 }
