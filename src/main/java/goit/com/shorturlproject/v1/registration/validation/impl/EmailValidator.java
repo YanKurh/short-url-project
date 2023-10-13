@@ -1,7 +1,7 @@
-package goit.com.shorturlproject.validation.impl;
+package goit.com.shorturlproject.v1.registration.validation.impl;
 
 
-import goit.com.shorturlproject.validation.ValidEmail;
+import goit.com.shorturlproject.v1.registration.validation.ValidEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;

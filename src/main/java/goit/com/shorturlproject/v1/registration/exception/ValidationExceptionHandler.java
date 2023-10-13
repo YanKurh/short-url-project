@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.exception;
+package goit.com.shorturlproject.v1.registration.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

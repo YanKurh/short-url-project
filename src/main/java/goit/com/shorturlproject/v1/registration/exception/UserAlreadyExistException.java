@@ -1,4 +1,4 @@
-package goit.com.shorturlproject.exception;
+package goit.com.shorturlproject.v1.registration.exception;
 
 public final class UserAlreadyExistException extends RuntimeException {
     public UserAlreadyExistException() {

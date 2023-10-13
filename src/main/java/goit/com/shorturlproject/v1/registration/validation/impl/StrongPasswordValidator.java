@@ -1,6 +1,6 @@
-package goit.com.shorturlproject.validation.impl;
+package goit.com.shorturlproject.v1.registration.validation.impl;
 
-import goit.com.shorturlproject.validation.StrongPassword;
+import goit.com.shorturlproject.v1.registration.validation.StrongPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
