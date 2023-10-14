@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class OpenAPIConfig {
 
@@ -17,6 +18,5 @@ public class OpenAPIConfig {
                         .title("URL Shortener API")
                         .version("v1")
                         .description("A URL Shortener project implemented with Spring Boot and Java 17."));
-
     }
 }
