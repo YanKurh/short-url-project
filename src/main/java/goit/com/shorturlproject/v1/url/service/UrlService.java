@@ -4,6 +4,7 @@ import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.user.dto.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,4 +19,9 @@ public interface UrlService {
     void updateByClick(UrlLink urlLink);
 
     Set<String> findAllShortLinks();
+
+    Set<UrlLink> findAllShortLinksByUserID(Long ID);
+
+    boolean deleteUrlById(Long id);
+
 }
