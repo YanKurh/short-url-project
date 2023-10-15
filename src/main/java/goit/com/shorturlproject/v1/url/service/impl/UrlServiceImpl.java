@@ -6,10 +6,12 @@ import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -55,6 +57,21 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Set<String> findAllShortLinks() {
         return urlRepository.findAllShortUrlLinks();
+    }
+
+    @Override
+    public Set<UrlLink> findAllShortLinksByUserID(Long ID) {
+        return urlRepository.findAllByUserId(ID);
+    }
+
+    @Override
+    public boolean deleteUrlById(Long id) {
+        try {
+            urlRepository.deleteUrlLinkById(id);
+            return true; // Видалення відбулося успішно
+        } catch (Exception e) {
+            return false; // Помилка під час видалення
+        }
     }
 }
 
