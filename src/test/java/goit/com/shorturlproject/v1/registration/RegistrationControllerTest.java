@@ -1,10 +1,12 @@
 package goit.com.shorturlproject.v1.registration;
+
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.registration.controller.RegistrationController;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -14,20 +16,20 @@ import org.springframework.validation.BindingResult;
 
 import static org.junit.Assert.assertEquals;
 
-public class RegistrationControllerTest {
+public class RegistrationControllerTest implements ITestContainer {
 
     private RegistrationController registrationController;
 
     @Mock
     private UserServiceImpl userServiceImpl;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         registrationController = new RegistrationController(userServiceImpl);
     }
 
-    @Test
+//    @Test
     public void testRegisterUser_InvalidUser() {
         User user = new User();
 

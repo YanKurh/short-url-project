@@ -32,29 +32,26 @@ public class User {
     @NotBlank
     @NotEmpty
     @Size(max = 30)
-    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
     @NotEmpty
     @Size(max = 45)
-    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank
     @Size(max = 50)
     @ValidEmail
     @NotEmpty(message = "Email can not be empty")
-    @Column(name = "email")
     private String email;
 
     @StrongPassword
     @NotEmpty
-    @Column(name = "password",length = 60)
+    @Column(length = 60)
     private String password;
 
     @NotEmpty
-    @Column(name = "confirm password",length = 60)
+    @Column(length = 60)
     private String confirmPassword;
 
 
@@ -74,5 +71,14 @@ public class User {
         this.email = email;
         this.login = login;
         this.password = password;
+    }
+
+    public User(String firstName, String lastName, String email, String password, String confirmPassword, String login) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.login = login;
     }
 }

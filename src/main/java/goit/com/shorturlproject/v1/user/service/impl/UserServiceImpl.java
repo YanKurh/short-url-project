@@ -4,7 +4,7 @@ import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistExcept
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
 import goit.com.shorturlproject.v1.user.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public User save(User user) {
@@ -32,15 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerNewUserAccount(final User user) {
-        if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
-        }
+    public User registerNewUserAccount(User user) {
+//        if (emailExists(user.getEmail())) {
+//            throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
+//        }
 
-        user.getFirstName();
-        user.getLastName();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getEmail();
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
         return userRepository.save(user);
     }
 
