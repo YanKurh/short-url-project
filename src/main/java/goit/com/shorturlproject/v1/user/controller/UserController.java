@@ -20,6 +20,6 @@ public class UserController {
     public @ResponseBody UrlLinkResponce createShortUrl(@RequestBody UrlLinkRequest urlLinkRequest) {
         User user = userUrlHelper.getUserById(urlLinkRequest.getUserId());
         UrlLink urlLink = userUrlHelper.createShortUrlForUser(urlLinkRequest.getLongUrl(), user);
-        return new UrlLinkResponce(urlLink.getShortUrl(), urlLink.getLongUrl(), user.getLogin());
+        return new UrlLinkResponce(urlLink.getShortUrl(), urlLink.getLongUrl(), user.getUsername());
     }
 }

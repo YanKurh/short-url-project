@@ -14,17 +14,17 @@ import java.util.Set;
 public interface UrlRepository extends JpaRepository<UrlLink, Long> {
     Set<UrlLink> findAllByUserId(Long userId);
 
-    @Query("SELECT ul.longUrl FROM UrlLink ul WHERE ul.shortUrl = :shortUrl")
+    @Query("SELECT ul.longUrl FROM UrlLink2 ul WHERE ul.shortUrl = :shortUrl")
     Optional<String> findLongUrlByShortUrl(@Param("shortUrl") String shortUrl);
 
     Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
 
     @Modifying
-    @Query("UPDATE UrlLink ul SET ul.clickTimes = :clickTimes WHERE ul.id = :urlLinkId")
+    @Query("UPDATE UrlLink2 ul SET ul.clickTimes = :clickTimes WHERE ul.id = :urlLinkId")
     void updateClickTimes(@Param("urlLinkId") Long urlLinkId, @Param("clickTimes") int clickTimes);
 
     Optional<UrlLink> findUrlLinkByShortUrl(String shortUrl);
 
-    @Query("select shortUrl from UrlLink")
+    @Query("select shortUrl from UrlLink2")
     Set<String> findAllShortUrlLinks();
 }

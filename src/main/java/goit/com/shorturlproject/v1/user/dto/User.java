@@ -27,6 +27,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "user_id")
     private Long id;
 
     @NotBlank
@@ -40,6 +41,11 @@ public class User {
     @Size(max = 45)
     @Column(name = "last_name")
     private String lastName;
+
+
+    @NotBlank
+    @Size(max = 20)
+    private String username;
 
     @NotBlank
     @Size(max = 50)
@@ -58,7 +64,6 @@ public class User {
     private String confirmPassword;
 
 
-    private String login;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UrlLink> links;
@@ -67,12 +72,13 @@ public class User {
         links = new HashSet<>();
     }
 
-    public User(String firstName, String lastName, String email, String login, String password) {
+    public User(String firstName, String lastName, String username,String email, String password) {
         this();
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.login = login;
+        this.username = username;
         this.password = password;
     }
 }
