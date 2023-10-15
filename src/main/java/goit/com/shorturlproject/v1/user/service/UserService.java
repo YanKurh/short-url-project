@@ -14,7 +14,9 @@ public interface UserService {
     void saveRegisteredUser(User user);
 
     void deleteUser(User user);
+
     User findUserByEmail(String email);
+
     Optional<User> getUserByID(Long id);
 
 }

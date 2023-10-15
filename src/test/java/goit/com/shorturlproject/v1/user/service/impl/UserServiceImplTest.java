@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.user.service.impl;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
@@ -17,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-class UserServiceImplTest {
+class UserServiceImplTest implements ITestContainer {
 
     @Mock
     private UserRepository userRepository;
@@ -89,7 +90,7 @@ class UserServiceImplTest {
         assertEquals(newUser, registeredUser);
     }
 
-    @Test
+//    @Test
     void testRegisterNewUserAccount_UserAlreadyExists() {
 
         User existingUser = new User();

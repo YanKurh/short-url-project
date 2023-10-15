@@ -12,6 +12,7 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("v1")
 public class RegistrationController {
     private final UserServiceImpl userServiceImpl;
 
@@ -29,16 +30,6 @@ public class RegistrationController {
             return ResponseEntity.ok("User registered successfully");
         } catch (UserAlreadyExistException e) {
             return ResponseEntity.badRequest().body("User with this email already exists");
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userServiceImpl.getUserByID(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
 }
