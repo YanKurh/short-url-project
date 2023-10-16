@@ -17,6 +17,6 @@ public class OpenAPIConfig {
                 .info(new Info()
                         .title("URL Shortener API")
                         .version("v1")
-                        .description("A URL Shortener project implemented with Spring Boot and Java 17."));
+                        .description("This is the URL Shortener project implemented with Spring Boot and Java 17."));
     }
 }
