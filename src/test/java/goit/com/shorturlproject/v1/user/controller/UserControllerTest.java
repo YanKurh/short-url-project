@@ -159,4 +159,42 @@ class UserControllerTest implements ITestContainer {
 
         assertEquals(allLinks, links);
     }
+
+    @Test
+    void deleteLink_Successful() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        Long userId = 1L;
+        Long linkId = 1L;
+        User user = new User();
+        UrlLink link = new UrlLink(linkId, "http://example.com/1", "short1",
+                dateTime, 0, dateTime.plusDays(1), user);
+        user.setId(userId);
+        user.setLinks(Set.of(link));
+
+        when(urlService.deleteUrlById(userId, linkId)).thenReturn(1);
+
+        ResponseEntity<String> response = userController.deleteLink(userId, linkId);
+
+        assertEquals("Посилання було успішно видалено", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(urlService, times(1)).deleteUrlById(userId, linkId);
+    }
+
+    @Test
+    void deleteLink_LinkNotExist() {
+        Long userId = 1L;
+        Long linkId = 1L;
+        User user = new User();
+        user.setId(userId);
+
+        when(urlService.deleteUrlById(userId, linkId)).thenReturn(0);
+
+        ResponseEntity<String> response = userController.deleteLink(userId, linkId);
+
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        verify(urlService, times(1)).deleteUrlById(userId, linkId);
+    }
 }
