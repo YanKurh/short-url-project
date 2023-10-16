@@ -71,15 +71,16 @@ public class UrlServiceImpl implements UrlService {
         return urlRepository.findAllByUserId(id);
     }
 
+    @Transactional
     @Override
-    public boolean deleteUrlById(Long userId, Long linkId) {
+    public int deleteUrlById(Long userId, Long linkId) {
         try {
-            urlRepository.deleteUrlLinkById(userId, linkId);
-            return true; // Видалення відбулося успішно
+            return urlRepository.deleteUrlLinkById(userId, linkId); // Видалення відбулося успішно
         } catch (Exception e) {
-            return false; // Помилка під час видалення
+            return 0; // Помилка під час видалення
         }
     }
+
     @Override
     public Set<UrlLink> getAllLinksFromRedis() {
         Set<String> keys = template.keys("*");

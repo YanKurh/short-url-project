@@ -36,19 +36,4 @@ public class RegistrationController {
             return ResponseEntity.badRequest().body("User with this email already exists");
         }
     }
-
-    @Operation(summary = "Get a user by id", description = "Returns user by the id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully"),
-            @ApiResponse(responseCode = "404", description = "The user was not found")
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userServiceImpl.getUserByID(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

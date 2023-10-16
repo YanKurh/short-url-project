@@ -32,6 +32,11 @@ public class UserController {
     private final UserService userService;
 
 
+    @Operation(summary = "Get a user by id", description = "Returns user by the id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully"),
+            @ApiResponse(responseCode = "404", description = "The user was not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserByID(id);
@@ -83,9 +88,8 @@ public class UserController {
     })
     @DeleteMapping("{userId}/deleteLink/{linkId}")
     public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable Long linkId) {
-        boolean deleted = urlServise.deleteUrlById(userId, linkId);
 
-        if (deleted) {
+        if (urlService.deleteUrlById(userId, linkId) != 0) {
             return ResponseEntity.ok("Посилання було успішно видалено"); // HTTP статус 200 OK
         } else {
             return ResponseEntity.notFound().build(); // HTTP статус 404 Not Found
