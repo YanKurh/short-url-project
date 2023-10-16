@@ -7,18 +7,14 @@ import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.service.UserService;
 import goit.com.shorturlproject.v1.user.service.UserUrlHelper;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.hibernate.mapping.Collection;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,8 +26,8 @@ public class UserController {
 
     private final UserUrlHelper userUrlHelper;
 
-    @Qualifier("urlService")
-    private final UrlService urlServise;
+
+    private final UrlService urlService;
 
     private final UserService userService;
 
@@ -39,12 +35,9 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserByID(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+  
     @Operation(summary = "Create new short link", description = "Returns a short link from a long link")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -63,12 +56,15 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
     @GetMapping("/{id}/allActiveLinks")
-    public Set<UrlLink> getAllActiveLinks(@PathVariable Long id){
-        LocalDateTime dateTime = LocalDateTime.now();
-        Set<UrlLink> links = urlServise.findAllShortLinksByUserID(id);
-        Set<UrlLink> val = links.stream().filter(x -> dateTime.isBefore(x.getExpirationDate())).collect(Collectors.toSet());
-        return val;
+    public Set<UrlLink> getAllActiveLinks(@PathVariable Long id) {
+        return urlService.getAllLinksFromRedis().stream()
+                .filter(link -> link.getUser().getId().equals(id))
+                .map(link -> urlService.findUrlLinkByLongUrl(link.getLongUrl()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
     }
+
 
     @Operation(summary = "Get all links by id", description = "Returns a list of all links as per the id")
     @ApiResponses(value = {
@@ -77,7 +73,7 @@ public class UserController {
     })
     @GetMapping(value = "/{id}/allLinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<UrlLink> getAllLinks(@PathVariable Long id){
-        return urlServise.findAllShortLinksByUserID(id);
+        return urlService.findAllShortLinksByUserID(id);
     }
 
     @Operation(summary = "Delete the link by id", description = "Returns the status regarding the removal of the link")
@@ -87,7 +83,7 @@ public class UserController {
     })
     @DeleteMapping("/deleteLink/{id}")
     public ResponseEntity<String> deleteLink(@PathVariable Long id) {
-        boolean deleted = urlServise.deleteUrlById(id);
+        boolean deleted = urlService.deleteUrlById(id);
 
         if (deleted) {
             return ResponseEntity.ok("Посилання було успішно видалено"); // HTTP статус 200 OK

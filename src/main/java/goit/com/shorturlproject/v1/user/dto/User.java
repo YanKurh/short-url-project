@@ -58,7 +58,7 @@ public class User {
     private String login;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<UrlLink> links;
+    private transient Set<UrlLink> links;
 
     public User() {
         links = new HashSet<>();

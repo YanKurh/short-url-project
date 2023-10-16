@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -57,7 +58,7 @@ public class UrlServiceImpl implements UrlService {
     @Transactional
     @Override
     public void updateByClick(UrlLink urlLink) {
-        urlRepository.updateClickTimes(urlLink.getId(), urlLink.getClickTimes() + 1);
+        urlRepository.updateClickTimes(urlLink.getShortUrl(), urlLink.getClickTimes() + 1);
     }
 
     @Override
@@ -78,6 +79,20 @@ public class UrlServiceImpl implements UrlService {
         } catch (Exception e) {
             return false; // Помилка під час видалення
         }
+    }
+    @Override
+    public Set<UrlLink> getAllLinksFromRedis() {
+        Set<String> keys = template.keys("*");
+        Set<UrlLink> urlLinks = new HashSet<>();
+
+        for (String key : keys) {
+            UrlLink urlLink = template.opsForValue().get(key);
+            if (urlLink != null) {
+                urlLinks.add(urlLink);
+            }
+        }
+
+        return urlLinks;
     }
 }
 

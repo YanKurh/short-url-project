@@ -6,11 +6,7 @@ import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.user.dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -123,12 +119,12 @@ class UrlServiceImplTest {
     @Test
     void testUpdateByClick() {
         UrlLink urlLink = new UrlLink();
-        urlLink.setId(1L);
+        urlLink.setShortUrl("dlalda");
         urlLink.setClickTimes(0);
 
         urlService.updateByClick(urlLink);
 
-        verify(urlRepository, times(1)).updateClickTimes(urlLink.getId(), urlLink.getClickTimes() + 1);
+        verify(urlRepository, times(1)).updateClickTimes(urlLink.getShortUrl(), urlLink.getClickTimes() + 1);
     }
 
     @Test

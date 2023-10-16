@@ -18,7 +18,7 @@ import org.springframework.validation.BindingResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class RegistrationControllerTest implements ITestContainer {
+class RegistrationControllerTest implements ITestContainer {
 
     private RegistrationController registrationController;
 
@@ -30,7 +30,7 @@ public class RegistrationControllerTest implements ITestContainer {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         registrationController = new RegistrationController(userServiceImpl);
     }
 
@@ -58,7 +58,7 @@ public class RegistrationControllerTest implements ITestContainer {
 
 
     @Test
-    public void testRegisterUser_UserAlreadyExists() {
+    void testRegisterUser_UserAlreadyExists() {
         User user = new User();
 
         BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
