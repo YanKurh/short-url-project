@@ -27,10 +27,10 @@ class UrlServiceImplTest {
     private UrlRepository urlRepository;
 
     @Mock
-    private RedisTemplate<String, UrlLink> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Mock
-    private ValueOperations<String, UrlLink> valueOperations;
+    private ValueOperations valueOperations;
 
     @BeforeEach
     void setUp() {
