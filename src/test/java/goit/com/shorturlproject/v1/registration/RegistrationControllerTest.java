@@ -10,11 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class RegistrationControllerTest implements ITestContainer {
 
@@ -23,6 +25,9 @@ public class RegistrationControllerTest implements ITestContainer {
     @Mock
     private UserServiceImpl userServiceImpl;
 
+    @Mock
+    private BindingResult bindingResult;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -30,36 +35,25 @@ public class RegistrationControllerTest implements ITestContainer {
     }
 
     @Test
-    public void testRegisterUser_InvalidUser() {
-        User user = new User();
+    void testRegistrationController_Success() {
+        when(bindingResult.hasErrors()).thenReturn(false);
 
-        user.setEmail("invalidemail");
-        user.setPassword("123");
+        when(userServiceImpl.registerNewUserAccount(Mockito.any(User.class))).thenReturn(new User());
 
-        BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
+        ResponseEntity<?> response = registrationController.registerUser(new User(), bindingResult);
 
-        ResponseEntity<?> response = registrationController.registerUser(user, bindingResult);
-
-        assertEquals(400, response.getStatusCodeValue());
-        assertEquals("Validation error", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("User registered successfully", response.getBody());
     }
 
     @Test
-    public void testRegisterUser_ValidUser() {
-        User user = new User();
+    void testRegistrationController_ValidationFailure() {
+        when(bindingResult.hasErrors()).thenReturn(true);
 
-        user.setEmail("valid_email@example.com");
-        user.setPassword("ValidPassword123");
+        ResponseEntity<?> response = registrationController.registerUser(new User(), bindingResult);
 
-        BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
-
-        Mockito.when(userServiceImpl.registerNewUserAccount(Mockito.any(User.class)))
-                .thenReturn(new User());
-
-        ResponseEntity<?> response = registrationController.registerUser(user, bindingResult);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("User registered successfully", response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Validation error", response.getBody());
     }
 
 
@@ -69,7 +63,7 @@ public class RegistrationControllerTest implements ITestContainer {
 
         BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
 
-        Mockito.when(userServiceImpl.registerNewUserAccount(Mockito.any(User.class)))
+        when(userServiceImpl.registerNewUserAccount(Mockito.any(User.class)))
                 .thenThrow(new UserAlreadyExistException("User with this email already exists"));
 
         ResponseEntity<?> response = registrationController.registerUser(user, bindingResult);

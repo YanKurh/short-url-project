@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.user.service;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.url.service.UrlShortener;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.exceptions.UserNotFoundException;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-class UserUrlHelperTest {
+class UserUrlHelperTest implements ITestContainer {
 
     @Mock
     private UserService userService;
