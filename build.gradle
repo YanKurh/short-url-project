@@ -50,6 +50,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    testImplementation 'io.rest-assured:rest-assured:5.3.2'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
     implementation group: 'org.springframework.data', name: 'spring-data-redis', version: '3.1.5'
