@@ -81,9 +81,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
-    @DeleteMapping("/deleteLink/{id}")
-    public ResponseEntity<String> deleteLink(@PathVariable Long id) {
-        boolean deleted = urlService.deleteUrlById(id);
+    @DeleteMapping("{userId}/deleteLink/{linkId}")
+    public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable Long linkId) {
+        boolean deleted = urlServise.deleteUrlById(userId, linkId);
 
         if (deleted) {
             return ResponseEntity.ok("Посилання було успішно видалено"); // HTTP статус 200 OK
