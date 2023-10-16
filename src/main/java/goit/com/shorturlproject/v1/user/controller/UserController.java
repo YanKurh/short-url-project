@@ -2,7 +2,6 @@ package goit.com.shorturlproject.v1.user.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
-import goit.com.shorturlproject.v1.url.service.impl.UrlServiceImpl;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkRequest;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
@@ -13,26 +12,38 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.hibernate.mapping.Collection;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("v1/auth/user")
+@RequiredArgsConstructor
 public class UserController {
+
     private final UserUrlHelper userUrlHelper;
 
-    private UrlService urlServise;
+    @Qualifier("urlService")
+    private final UrlService urlServise;
 
-    private UserServiceImpl service;
+    private final UserService userService;
 
-    public UserController(UserUrlHelper userUrlHelper) {
-        this.userUrlHelper = userUrlHelper;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userService.getUserByID(id);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
     @Operation(summary = "Create new short link", description = "Returns a short link from a long link")
     @ApiResponses(value = {
@@ -84,8 +95,4 @@ public class UserController {
             return ResponseEntity.notFound().build(); // HTTP статус 404 Not Found
         }
     }
-
-
-
-
 }

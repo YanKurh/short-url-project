@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("v1")
 public class RegistrationController {
     private final UserServiceImpl userServiceImpl;
 
     public RegistrationController(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
+  
     @Operation(summary = "User registration")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid User user, BindingResult bindingResult) {
@@ -34,7 +36,6 @@ public class RegistrationController {
             return ResponseEntity.badRequest().body("User with this email already exists");
         }
     }
-
 
     @Operation(summary = "Get a user by id", description = "Returns user by the id")
     @ApiResponses(value = {
