@@ -32,10 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerNewUserAccount(final User user) {
+    public User registerNewUserAccount(User user) {
         if (emailExists(user.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
         }
+
 
         user.getFirstName();
         user.getLastName();
@@ -43,27 +44,27 @@ public class UserServiceImpl implements UserService {
         user.getEmail();
         return userRepository.save(user);
     }
-
-
     @Override
-    public void saveRegisteredUser(final User user) {
+    public Optional<User> findByUserName(String userName){return userRepository.findByUserName(userName);}
+    @Override
+    public void saveRegisteredUser( User user) {
         userRepository.save(user);
     }
-    private boolean emailExists(final String email) {
+    private boolean emailExists( String email) {
         return userRepository.findByEmail(email) != null;
     }
     @Override
-    public Optional<User> getUserByID(final Long id) {
+    public Optional<User> getUserByID( Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public User findUserByEmail(final String email) {
+    public User findUserByEmail( String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public void deleteUser(final User user) {
+    public void deleteUser( User user) {
         userRepository.delete(user);
     }
 }

@@ -1,10 +1,12 @@
 package goit.com.shorturlproject.v1.registration;
+
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.registration.controller.RegistrationController;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -14,14 +16,14 @@ import org.springframework.validation.BindingResult;
 
 import static org.junit.Assert.assertEquals;
 
-public class RegistrationControllerTest {
+public class RegistrationControllerTest implements ITestContainer {
 
     private RegistrationController registrationController;
 
     @Mock
     private UserServiceImpl userServiceImpl;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         registrationController = new RegistrationController(userServiceImpl);
@@ -30,6 +32,9 @@ public class RegistrationControllerTest {
     @Test
     public void testRegisterUser_InvalidUser() {
         User user = new User();
+
+        user.setEmail("invalidemail");
+        user.setPassword("123");
 
         BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
 
@@ -43,6 +48,9 @@ public class RegistrationControllerTest {
     public void testRegisterUser_ValidUser() {
         User user = new User();
 
+        user.setEmail("valid_email@example.com");
+        user.setPassword("ValidPassword123");
+
         BindingResult bindingResult = new BeanPropertyBindingResult(user, "user");
 
         Mockito.when(userServiceImpl.registerNewUserAccount(Mockito.any(User.class)))
@@ -53,6 +61,7 @@ public class RegistrationControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("User registered successfully", response.getBody());
     }
+
 
     @Test
     public void testRegisterUser_UserAlreadyExists() {

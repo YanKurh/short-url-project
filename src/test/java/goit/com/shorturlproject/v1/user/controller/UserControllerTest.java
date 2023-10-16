@@ -38,7 +38,7 @@ class UserControllerTest {
     void testCreateShortUrl() throws Exception {
         User user = new User();
         user.setId(1L);
-        user.setLogin("TestUser");
+        user.setUserName("TestUser");
 
         when(userUrlHelper.getUserById(anyLong())).thenReturn(user);
 

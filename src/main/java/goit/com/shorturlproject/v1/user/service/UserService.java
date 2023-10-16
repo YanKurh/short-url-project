@@ -17,4 +17,6 @@ public interface UserService {
     User findUserByEmail(String email);
     Optional<User> getUserByID(Long id);
 
+    Optional<User> findByUserName(String userName);
+
 }

@@ -3,6 +3,7 @@ package goit.com.shorturlproject.v1.registration.controller;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
+
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
