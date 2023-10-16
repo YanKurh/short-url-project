@@ -50,6 +50,10 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis
+    implementation group: 'org.springframework.data', name: 'spring-data-redis', version: '3.1.5'
+    implementation 'redis.clients:jedis'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 tasks.named('test') {

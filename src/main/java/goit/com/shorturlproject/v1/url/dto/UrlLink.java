@@ -26,7 +26,7 @@ public class UrlLink {
 
     private LocalDateTime createdAt;
 
-    private Integer clickTimes;
+    private int clickTimes;
 
     private LocalDateTime expirationDate;
 
