@@ -65,9 +65,9 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public boolean deleteUrlById(Long id) {
+    public boolean deleteUrlById(Long userId, Long linkId) {
         try {
-            urlRepository.deleteUrlLinkById(id);
+            urlRepository.deleteUrlLinkById(userId, linkId);
             return true; // Видалення відбулося успішно
         } catch (Exception e) {
             return false; // Помилка під час видалення

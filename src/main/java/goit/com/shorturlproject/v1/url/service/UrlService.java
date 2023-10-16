@@ -22,6 +22,6 @@ public interface UrlService {
 
     Set<UrlLink> findAllShortLinksByUserID(Long ID);
 
-    boolean deleteUrlById(Long id);
+    boolean deleteUrlById(Long userId, Long linkId);
 
 }
