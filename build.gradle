@@ -52,7 +52,9 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
-
+    implementation group: 'org.springframework.data', name: 'spring-data-redis', version: '3.1.5'
+    implementation 'redis.clients:jedis'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 tasks.named('test') {
