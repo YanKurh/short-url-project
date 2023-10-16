@@ -5,20 +5,24 @@ import goit.com.shorturlproject.v1.url.exceptions.UrlNotFoundException;
 import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
     private final UrlRepository urlRepository;
+    private final RedisTemplate<String,UrlLink> template;
+
+    public UrlServiceImpl(UrlRepository urlRepository, RedisTemplate<String, UrlLink> template) {
+        this.urlRepository = urlRepository;
+        this.template = template;
+    }
 
 
     @Override
@@ -28,8 +32,10 @@ public class UrlServiceImpl implements UrlService {
         UrlLink urlLink = new UrlLink();
         urlLink.setShortUrl(shortUrl);
         urlLink.setLongUrl(longUrl);
-        urlLink.setCreatedAt(now);
         urlLink.setUser(user);
+        template.opsForValue().set(shortUrl, urlLink);
+        template.expire(shortUrl, 30, TimeUnit.SECONDS);
+        urlLink.setCreatedAt(now);
         urlLink.setExpirationDate(expirationDate);
         return urlRepository.saveAndFlush(urlLink);
     }
@@ -41,11 +47,11 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     public UrlLink findUrlLinkByShortUrl(String shortUrl) {
-        Optional<UrlLink> urlLinkByShortUrl = urlRepository.findUrlLinkByShortUrl(shortUrl);
-        if (urlLinkByShortUrl.isEmpty()) {
+        UrlLink urlLink = template.opsForValue().get(shortUrl);
+        if (urlLink == null) {
             throw new UrlNotFoundException(shortUrl);
         }
-        return urlLinkByShortUrl.get();
+        return urlLink;
     }
 
     @Transactional
@@ -60,8 +66,8 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Set<UrlLink> findAllShortLinksByUserID(Long ID) {
-        return urlRepository.findAllByUserId(ID);
+    public Set<UrlLink> findAllShortLinksByUserID(Long id) {
+        return urlRepository.findAllByUserId(id);
     }
 
     @Override
