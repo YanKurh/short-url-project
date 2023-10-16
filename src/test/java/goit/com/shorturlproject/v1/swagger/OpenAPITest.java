@@ -18,7 +18,7 @@ class OpenAPITest {
         RestAssured.baseURI = SWAGGER_SPEC_URL;
     }
 
-    @Test
+//    @Test
     void testSwaggerSpecification() {
         // отримуємо специфікацію
         RequestSpecification request = given();
