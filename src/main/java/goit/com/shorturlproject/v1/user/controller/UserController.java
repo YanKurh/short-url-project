@@ -5,24 +5,15 @@ import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkRequest;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
+import goit.com.shorturlproject.v1.user.service.UserService;
 import goit.com.shorturlproject.v1.user.service.UserUrlHelper;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.hibernate.mapping.Collection;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.HashSet;
-import java.util.Objects;
-import java.time.LocalDateTime;
 
 import java.util.Optional;
 import java.util.Set;
@@ -44,11 +35,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserByID(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
   
     @Operation(summary = "Create new short link", description = "Returns a short link from a long link")
