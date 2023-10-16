@@ -17,7 +17,7 @@ public class UrlController {
     }
 
     @RequestMapping("/{shortUrl}")
-    public ModelAndView redirectFromShortUrl(@PathVariable String shortUrl) {
+    public ModelAndView redirectFromShortUrl(@PathVariable(value = "shortUrl") String shortUrl) {
         UrlLink urlLinkByShortUrl = urlService.findUrlLinkByShortUrl(shortUrl);
         urlService.updateByClick(urlLinkByShortUrl);
         return new ModelAndView("redirect:" + urlLinkByShortUrl.getLongUrl());
