@@ -4,8 +4,10 @@ CREATE TABLE "user"
     first_name VARCHAR(200),
     last_name  VARCHAR(200),
     email      VARCHAR(1000),
-    login      VARCHAR(1000),
-    password   VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100)
+    user_name      VARCHAR(1000),
+    password   VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100),
+    confirm_password   VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100),
+    role varchar(255) not null
 );
 
 CREATE TABLE url

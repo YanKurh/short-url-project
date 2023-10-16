@@ -1,20 +1,19 @@
 package goit.com.shorturlproject.v1.auth.service;
-import goit.com.shorturlproject.v1.auth.service.JwtService;
+
+import goit.com.shorturlproject.v1.auth.dto.UserRequest;
 import goit.com.shorturlproject.v1.auth.request.AuthenticationRequest;
 import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.exceptions.UserNotFoundException;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
-import lombok.AllArgsConstructor;
+import goit.com.shorturlproject.v1.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -24,18 +23,20 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userServiceImpl;
 
 
-    public AuthenticationResponse register(User registerRequest) {
+    public AuthenticationResponse register(UserRequest registerRequest) {
         User user = new User();
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEmail(registerRequest.getEmail());
+        user.setPassword(registerRequest.getPassword());
+        user.setConfirmPassword(registerRequest.getConfirmPassword());
+        user.setUserName(registerRequest.getUserName());
 
         Optional<User> existingUser = userServiceImpl.findByUserName(user.getUsername());
-        if (existingUser != null) {
+        if (existingUser.isPresent()) {
             AuthenticationResponse response = new AuthenticationResponse();
             response.setError("User with this username already exists");
             return response;

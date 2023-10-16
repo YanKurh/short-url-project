@@ -1,6 +1,7 @@
 package goit.com.shorturlproject.v1.user.service.impl;
 
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
+import goit.com.shorturlproject.v1.user.dto.Role;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
 import goit.com.shorturlproject.v1.user.service.UserService;
@@ -36,12 +37,9 @@ public class UserServiceImpl implements UserService {
         if (emailExists(user.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
         }
-
-
-        user.getFirstName();
-        user.getLastName();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getEmail();
+        user.setConfirmPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         return userRepository.save(user);
     }
     @Override
