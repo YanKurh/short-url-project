@@ -7,7 +7,7 @@ PROD_DB_URL=jdbc:postgresql://production-db.chn7dhpckyy7.eu-west-3.rds.amazonaws
 PROD_DB_PASS=prodpass;
 PROD_DB_USER=produser;
 PR0D_SECURITY_PASS=default;
-LOCAL_REDIS_URL=jdbc:redis://localhost:6379/1;
+LOCAL_REDIS_URL=jdbc:redis://localhost:6379/;
 REDIS_HOST=localhost;
 REDIS_PORT=6379;
 
