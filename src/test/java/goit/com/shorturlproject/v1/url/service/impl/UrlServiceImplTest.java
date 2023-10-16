@@ -6,8 +6,11 @@ import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.user.dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -19,6 +22,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("rawtypes")
 class UrlServiceImplTest {
 
     private UrlServiceImpl urlService;
@@ -30,17 +34,22 @@ class UrlServiceImplTest {
     private RedisTemplate redisTemplate;
 
     @Mock
-    private ValueOperations valueOperations;
+    private ValueOperations<String, UrlLink> valueOperations;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setUp() {
-        urlRepository = Mockito.mock(UrlRepository.class);
-        redisTemplate = Mockito.mock(RedisTemplate.class);
-        valueOperations = Mockito.mock(ValueOperations.class);
+        urlRepository = mock(UrlRepository.class);
+
+        redisTemplate = mock(RedisTemplate.class);
+        valueOperations = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
 
         urlService = new UrlServiceImpl(urlRepository, redisTemplate);
     }
+
+
+
     @Test
     void testSaveAndFlush() {
         String shortUrl = "abc123";
