@@ -24,4 +24,6 @@ public interface UrlService {
 
     boolean deleteUrlById(Long userId, Long linkId);
 
+    Set<UrlLink> getAllLinksFromRedis();
+
 }

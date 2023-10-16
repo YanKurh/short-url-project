@@ -20,8 +20,8 @@ public interface UrlRepository extends JpaRepository<UrlLink, Long> {
     Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
 
     @Modifying
-    @Query("UPDATE UrlLink ul SET ul.clickTimes = :clickTimes WHERE ul.id = :urlLinkId")
-    void updateClickTimes(@Param("urlLinkId") Long urlLinkId, @Param("clickTimes") int clickTimes);
+    @Query("UPDATE UrlLink ul SET ul.clickTimes = :clickTimes WHERE ul.shortUrl = :shortUrl")
+    void updateClickTimes(@Param("shortUrl") String shortUrl, @Param("clickTimes") int clickTimes);
 
     Optional<UrlLink> findUrlLinkByShortUrl(String shortUrl);
 
