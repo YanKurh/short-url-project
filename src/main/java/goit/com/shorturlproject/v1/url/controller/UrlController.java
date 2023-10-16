@@ -2,9 +2,8 @@ package goit.com.shorturlproject.v1.url.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -16,7 +15,9 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @RequestMapping("/{shortUrl}")
+    @GetMapping(value = "/{shortUrl}")
+    @Operation(summary = "Redirect from short URL",
+               description = "Redirects to the long URL associated with the provided short URL")
     public ModelAndView redirectFromShortUrl(@PathVariable String shortUrl) {
         UrlLink urlLinkByShortUrl = urlService.findUrlLinkByShortUrl(shortUrl);
         urlService.updateByClick(urlLinkByShortUrl);

@@ -22,10 +22,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
 //        this.passwordEncoder = passwordEncoder;
     }
+
     @Override
     public User save(User user) {
         return userRepository.save(user);
     }
+
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
@@ -33,9 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerNewUserAccount(User user) {
-//        if (emailExists(user.getEmail())) {
-//            throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
-//        }
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
+        }
 
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
@@ -47,9 +49,11 @@ public class UserServiceImpl implements UserService {
     public void saveRegisteredUser(final User user) {
         userRepository.save(user);
     }
+
     private boolean emailExists(final String email) {
         return userRepository.findByEmail(email) != null;
     }
+
     @Override
     public Optional<User> getUserByID(final Long id) {
         return userRepository.findById(id);
