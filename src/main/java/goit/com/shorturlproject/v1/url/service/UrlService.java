@@ -23,5 +23,6 @@ public interface UrlService {
     Set<UrlLink> findAllShortLinksByUserID(Long ID);
 
     boolean deleteUrlById(Long id);
+    Set<UrlLink> getAllLinksFromRedis();
 
 }

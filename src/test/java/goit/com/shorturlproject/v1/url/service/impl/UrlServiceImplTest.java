@@ -123,12 +123,12 @@ class UrlServiceImplTest {
     @Test
     void testUpdateByClick() {
         UrlLink urlLink = new UrlLink();
-        urlLink.setId(1L);
+        urlLink.setShortUrl("dlalda");
         urlLink.setClickTimes(0);
 
         urlService.updateByClick(urlLink);
 
-        verify(urlRepository, times(1)).updateClickTimes(urlLink.getId(), urlLink.getClickTimes() + 1);
+        verify(urlRepository, times(1)).updateClickTimes(urlLink.getShortUrl(), urlLink.getClickTimes() + 1);
     }
 
     @Test
