@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -96,11 +97,15 @@ class UrlServiceImplTest {
     void testUpdateByClick() {
         UrlLink urlLink = new UrlLink();
         urlLink.setShortUrl("dlalda");
-        urlLink.setClickTimes(0);
+        urlLink.setClickTimes(5);
+
+        when(valueOperations.get(urlLink.getShortUrl())).thenReturn(urlLink);
 
         urlService.updateByClick(urlLink);
 
-        verify(urlRepository, times(1)).updateClickTimes(urlLink.getShortUrl(), urlLink.getClickTimes() + 1);
+        verify(valueOperations).set(eq(urlLink.getShortUrl()), any(UrlLink.class));
+
+        verify(urlRepository).updateClickTimes(eq(urlLink.getShortUrl()), eq(urlLink.getClickTimes()));
     }
 
     @Test
