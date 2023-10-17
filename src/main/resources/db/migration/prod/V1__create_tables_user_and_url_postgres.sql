@@ -4,9 +4,10 @@ CREATE TABLE "user"
     first_name       VARCHAR(200),
     last_name        VARCHAR(200),
     email            VARCHAR(1000),
-    login            VARCHAR(1000),
     password         VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100),
-    confirm_password VARCHAR(100) CHECK ( confirm_password = password )
+    confirm_password VARCHAR(100) CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 100),
+    user_name        VARCHAR(1000),
+    role             VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE url
@@ -18,5 +19,5 @@ CREATE TABLE url
     click_times     INTEGER,
     expiration_date TIMESTAMP,
     user_id         INTEGER,
-    FOREIGN KEY (user_id) REFERENCES "user" (id)
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );

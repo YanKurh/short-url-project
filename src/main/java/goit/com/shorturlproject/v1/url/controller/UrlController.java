@@ -15,7 +15,7 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @GetMapping(value = "/{shortUrl}")
+    @GetMapping(value = "/{shortUrl}/short")
     @Operation(summary = "Redirect from short URL",
                description = "Redirects to the long URL associated with the provided short URL")
     public ModelAndView redirectFromShortUrl(@PathVariable String shortUrl) {

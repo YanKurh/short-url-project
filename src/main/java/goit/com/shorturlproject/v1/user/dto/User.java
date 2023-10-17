@@ -1,13 +1,11 @@
 package goit.com.shorturlproject.v1.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import goit.com.shorturlproject.v1.registration.validation.PasswordMatching;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import goit.com.shorturlproject.v1.registration.validation.StrongPassword;
-import goit.com.shorturlproject.v1.registration.validation.ValidEmail;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,41 +23,34 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "\"user\"")
+@JsonIgnoreProperties(value = {
+        "links",
+        "confirmPassword",
+        "password",
+        "role"
+})
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @NotEmpty
     @Size(max = 30)
     private String firstName;
 
-    @NotBlank
-    @NotEmpty
     @Size(max = 45)
     private String lastName;
 
-    @NotBlank
-    @Size(max = 50)
-    @ValidEmail
-    @NotEmpty(message = "Email can not be empty")
     private String email;
 
-    @StrongPassword
-    @NotEmpty
-    @Column(length = 60)
     private String password;
 
-    @NotEmpty
     @Column(length = 60)
     private String confirmPassword;
 
-    @Column(name = "userName" , length = 60)
+    @Column(name = "userName", length = 60)
     private String userName;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UrlLink> links;
 
@@ -70,41 +61,48 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String firstName, String lastName, String email, String userName, String password) {
+    public User(String firstName, String lastName, String email, String userName, String password, Role role) {
         this();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.userName = userName;
         this.password = password;
-
+        this.role = role;
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
     @Override
+    @JsonIgnore
     public String getUsername() {
         return userName;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

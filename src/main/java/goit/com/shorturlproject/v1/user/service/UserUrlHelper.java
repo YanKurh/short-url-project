@@ -41,7 +41,7 @@ public class UserUrlHelper {
     public UrlLinkResponce createShortUrl(UrlLinkRequest urlLinkRequest) {
         User user = getUserById(urlLinkRequest.getUserId());
         UrlLink urlLink = createShortUrlForUser(urlLinkRequest.getLongUrl(), user);
-        return new UrlLinkResponce(domain + urlLink.getShortUrl(), urlLink.getLongUrl(), user.getLogin());
+        return new UrlLinkResponce(domain + urlLink.getShortUrl() + "/short", urlLink.getLongUrl(), user.getUsername());
     }
 
     public Set<UrlLink> getAllActiveLinks(Long userId) {

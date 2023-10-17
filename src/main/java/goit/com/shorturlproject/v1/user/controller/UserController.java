@@ -25,6 +25,7 @@ import java.util.Set;
 public class UserController {
     private final UserUrlHelper userUrlHelper;
     private final UserService userService;
+
     @Operation(summary = "Get a user by id", description = "Returns user by the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully"),

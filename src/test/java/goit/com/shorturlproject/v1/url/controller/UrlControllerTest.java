@@ -39,7 +39,7 @@ class UrlControllerTest implements ITestContainer {
 
         when(urlService.findUrlLinkByShortUrl(shortUrl)).thenReturn(urlLink);
 
-        mockMvc.perform(get("/v1/" + shortUrl))
+        mockMvc.perform(get("/v1/" + shortUrl + "/short"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(longUrl));
 
