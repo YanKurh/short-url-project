@@ -55,7 +55,12 @@ public class UrlServiceImpl implements UrlService {
     @Transactional
     @Override
     public void updateByClick(UrlLink urlLink) {
-        urlRepository.updateClickTimes(urlLink.getShortUrl(), urlLink.getClickTimes() + 1);
+        UrlLink urlLink1 = valueOperations.get(urlLink.getShortUrl());
+        if (urlLink1 != null) {
+            urlLink1.setClickTimes(urlLink.getClickTimes() + 1);
+            valueOperations.set(urlLink1.getShortUrl(), urlLink1);
+        }
+        urlRepository.updateClickTimes(urlLink.getShortUrl(), Objects.requireNonNull(urlLink1).getClickTimes());
     }
 
     @Override
