@@ -35,7 +35,7 @@ class UserUrlHelperTest implements ITestContainer {
         long userId = 1L;
         User expectedUser = new User();
         expectedUser.setId(userId);
-        expectedUser.setLogin("TestUser");
+        expectedUser.setUserName("TestUser");
 
         when(userService.findById(anyLong())).thenReturn(Optional.of(expectedUser));
 

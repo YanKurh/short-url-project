@@ -1,8 +1,7 @@
 package goit.com.shorturlproject.v1.registration.controller;
-
+import goit.com.shorturlproject.v1.user.service.UserService;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -10,15 +9,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @RestController
 @RequestMapping("v1")
 public class RegistrationController {
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userServiceImpl;
 
-    public RegistrationController(UserServiceImpl userServiceImpl) {
+    public RegistrationController(UserService userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
   

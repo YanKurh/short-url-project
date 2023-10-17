@@ -5,15 +5,15 @@ public final class UserAlreadyExistException extends RuntimeException {
         super();
     }
 
-    public UserAlreadyExistException(final String message, final Throwable cause) {
+    public UserAlreadyExistException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public UserAlreadyExistException(final String message) {
+    public UserAlreadyExistException( String message) {
         super(message);
     }
 
-    public UserAlreadyExistException(final Throwable cause) {
+    public UserAlreadyExistException( Throwable cause) {
         super(cause);
     }
 }

@@ -36,11 +36,11 @@ class UserServiceImplTest implements ITestContainer {
     @Test
     void testSaveUser() {
         User userToSave = new User();
-        userToSave.setLogin("TestUser");
+        userToSave.setUserName("TestUser");
 
         User savedUser = new User();
         savedUser.setId(1L);
-        savedUser.setLogin("TestUser");
+        savedUser.setUserName("TestUser");
 
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
@@ -55,7 +55,7 @@ class UserServiceImplTest implements ITestContainer {
         Long userId = 1L;
         User expectedUser = new User();
         expectedUser.setId(userId);
-        expectedUser.setLogin("TestUser");
+        expectedUser.setUserName("TestUser");
 
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
 
@@ -110,7 +110,7 @@ class UserServiceImplTest implements ITestContainer {
         Long userId = 1L;
         User expectedUser = new User();
         expectedUser.setId(userId);
-        expectedUser.setLogin("TestUser");
+        expectedUser.setUserName("TestUser");
 
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
 
@@ -138,7 +138,7 @@ class UserServiceImplTest implements ITestContainer {
         String email = "user@example.com";
         User expectedUser = new User();
         expectedUser.setEmail(email);
-        expectedUser.setLogin("TestUser");
+        expectedUser.setUserName("TestUser");
 
         when(userRepository.findByEmail(email)).thenReturn(expectedUser);
 
@@ -165,7 +165,7 @@ class UserServiceImplTest implements ITestContainer {
 
         User userToDelete = new User();
         userToDelete.setId(1L);
-        userToDelete.setLogin("TestUser");
+        userToDelete.setUserName("TestUser");
 
         userService.deleteUser(userToDelete);
 

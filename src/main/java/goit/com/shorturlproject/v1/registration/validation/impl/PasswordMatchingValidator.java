@@ -25,4 +25,12 @@ public class PasswordMatchingValidator implements ConstraintValidator<PasswordMa
 
     return Objects.equals(passwordValue, confirmPasswordValue);
   }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }

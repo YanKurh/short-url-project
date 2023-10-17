@@ -1,10 +1,10 @@
-package goit.com.shorturlproject.v1.registration;
+package goit.com.shorturlproject.v1.registration.controller;
 
 import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.registration.controller.RegistrationController;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
+import goit.com.shorturlproject.v1.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,7 +23,7 @@ class RegistrationControllerTest implements ITestContainer {
     private RegistrationController registrationController;
 
     @Mock
-    private UserServiceImpl userServiceImpl;
+    private UserService userServiceImpl;
 
     @Mock
     private BindingResult bindingResult;
