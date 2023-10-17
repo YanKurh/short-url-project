@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,10 +45,9 @@ class UrlShortenerTest  implements ITestContainer {
         urlLink.setUser(user);
 
         when(urlValidator.isValidURL(longURL)).thenReturn(true);
-        when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Optional.empty());
         when(urlGenerator.getKey()).thenReturn(shortKey);
         when(urlService.saveAndFlush(shortKey, longURL, user)).thenReturn(urlLink);
-
+        when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Collections.emptyList());
         UrlLink result = urlShortener.shortenURL(longURL, user);
 
         assertEquals(urlLink, result);
@@ -58,32 +57,47 @@ class UrlShortenerTest  implements ITestContainer {
         verify(urlService, times(1)).saveAndFlush(shortKey, longURL, user);
     }
 
+
     @Test
     void testShortenExistingURL() {
         String longURL = "https://www.example.com";
         String shortKey = "abc123";
-        UrlLink urlLink = new UrlLink();
-        urlLink.setLongUrl(longURL);
-        urlLink.setShortUrl(shortKey);
         User user = new User();
-        urlLink.setUser(user);
+
+        UrlLink expectedUrlLink = new UrlLink();
+        expectedUrlLink.setLongUrl(longURL);
+        expectedUrlLink.setShortUrl(shortKey);
+        expectedUrlLink.setUser(user);
 
         when(urlValidator.isValidURL(longURL)).thenReturn(true);
-        when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Optional.of(urlLink));
+
+        UrlLink existingUrlLink = new UrlLink();
+        existingUrlLink.setLongUrl(longURL);
+        existingUrlLink.setShortUrl(shortKey);
+        existingUrlLink.setUser(user);
+
+        when(urlService.findUrlLinkByLongUrl(longURL)).thenReturn(Collections.singletonList(existingUrlLink));
+
+        when(urlGenerator.getKey()).thenReturn("newShortKey");
+
+        when(urlService.saveAndFlush("newShortKey", longURL, user)).thenReturn(expectedUrlLink);
 
         UrlLink result = urlShortener.shortenURL(longURL, user);
 
-        assertEquals(urlLink, result);
+        assertEquals(expectedUrlLink, result);
+
         verify(urlValidator, times(1)).isValidURL(longURL);
         verify(urlService, times(1)).findUrlLinkByLongUrl(longURL);
-        verify(urlGenerator, never()).getKey();
-        verify(urlService, never()).saveAndFlush(any(), any(), any());
+        verify(urlGenerator, times(1)).getKey();
+        verify(urlService, times(1)).saveAndFlush("newShortKey", longURL, user);
     }
+
+
 
     @Test
     void testShortenInvalidURL() {
         String longURL = "invalid_url";
-        User user = new User(); // Create a User object for testing purposes
+        User user = new User();
 
         when(urlValidator.isValidURL(longURL)).thenReturn(false);
 

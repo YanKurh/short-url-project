@@ -1,28 +1,30 @@
 package goit.com.shorturlproject.v1.url.service.impl;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
-import goit.com.shorturlproject.v1.url.exceptions.UrlNotFoundException;
 import goit.com.shorturlproject.v1.url.repository.UrlRepository;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.User;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UrlServiceImpl implements UrlService {
     private final UrlRepository urlRepository;
-    private final RedisTemplate<String,UrlLink> template;
+    private final ValueOperations<String, UrlLink> valueOperations;
 
-    public UrlServiceImpl(UrlRepository urlRepository, RedisTemplate<String, UrlLink> template) {
+
+    public UrlServiceImpl(UrlRepository urlRepository, RedisTemplate<String, UrlLink> redisTemplate) {
         this.urlRepository = urlRepository;
-        this.template = template;
+        this.valueOperations = redisTemplate.opsForValue();
     }
 
 
@@ -34,25 +36,20 @@ public class UrlServiceImpl implements UrlService {
         urlLink.setShortUrl(shortUrl);
         urlLink.setLongUrl(longUrl);
         urlLink.setUser(user);
-        template.opsForValue().set(shortUrl, urlLink);
-        template.expire(shortUrl, 30, TimeUnit.SECONDS);
         urlLink.setCreatedAt(now);
         urlLink.setExpirationDate(expirationDate);
-        return urlRepository.saveAndFlush(urlLink);
+        UrlLink urlLink1 = urlRepository.saveAndFlush(urlLink);
+        saveToRedis(shortUrl, urlLink1);
+        return urlLink1;
     }
 
     @Override
-    public Optional<UrlLink> findUrlLinkByLongUrl(String longUrl) {
+    public List<UrlLink> findUrlLinkByLongUrl(String longUrl) {
         return urlRepository.findUrlLinkByLongUrl(longUrl);
     }
-
     @Override
     public UrlLink findUrlLinkByShortUrl(String shortUrl) {
-        UrlLink urlLink = template.opsForValue().get(shortUrl);
-        if (urlLink == null) {
-            throw new UrlNotFoundException(shortUrl);
-        }
-        return urlLink;
+        return valueOperations.get(shortUrl);
     }
 
     @Transactional
@@ -75,19 +72,19 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public int deleteUrlById(Long userId, Long linkId) {
         try {
-            return urlRepository.deleteUrlLinkById(userId, linkId); // Видалення відбулося успішно
+            return urlRepository.deleteUrlLinkById(userId, linkId);
         } catch (Exception e) {
-            return 0; // Помилка під час видалення
+            return 0;
         }
     }
 
     @Override
     public Set<UrlLink> getAllLinksFromRedis() {
-        Set<String> keys = template.keys("*");
+        Set<String> keys = valueOperations.getOperations().keys("*");
         Set<UrlLink> urlLinks = new HashSet<>();
 
-        for (String key : keys) {
-            UrlLink urlLink = template.opsForValue().get(key);
+        for (String key : Objects.requireNonNull(keys)) {
+            UrlLink urlLink = valueOperations.get(key);
             if (urlLink != null) {
                 urlLinks.add(urlLink);
             }
@@ -95,5 +92,9 @@ public class UrlServiceImpl implements UrlService {
 
         return urlLinks;
     }
-}
 
+    private void saveToRedis(String shortUrl, UrlLink urlLink) {
+        valueOperations.set(shortUrl, urlLink);
+        valueOperations.getAndExpire(shortUrl, 1, TimeUnit.DAYS);
+    }
+}

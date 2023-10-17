@@ -90,7 +90,7 @@ class UserServiceImplTest implements ITestContainer {
         assertEquals(newUser, registeredUser);
     }
 
-//    @Test
+    //    @Test
     void testRegisterNewUserAccount_UserAlreadyExists() {
 
         User existingUser = new User();
@@ -172,4 +172,3 @@ class UserServiceImplTest implements ITestContainer {
 
     }
 }
-

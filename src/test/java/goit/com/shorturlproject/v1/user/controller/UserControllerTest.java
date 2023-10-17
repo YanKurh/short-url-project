@@ -4,6 +4,7 @@ import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkRequest;
+import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.service.UserService;
 import goit.com.shorturlproject.v1.user.service.UserUrlHelper;
@@ -45,156 +46,98 @@ class UserControllerTest implements ITestContainer {
     @InjectMocks
     private UserController userController;
 
-    private MockMvc mockMvc;
-
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+    void setUp() {
+        userUrlHelper = mock(UserUrlHelper.class);
+        userService = mock(UserService.class);
+        userController = new UserController(userUrlHelper, userService);
     }
 
     @Test
-    void testCreateShortUrl() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setLogin("TestUser");
-
-        when(userUrlHelper.getUserById(anyLong())).thenReturn(user);
-
-        UrlLink urlLink = new UrlLink();
-        urlLink.setUser(user);
-        urlLink.setShortUrl("shortUrl");
-        urlLink.setLongUrl("longUrl");
-
-        when(userUrlHelper.createShortUrlForUser(anyString(), any(User.class))).thenReturn(urlLink);
-
-        UrlLinkRequest urlLinkRequest = new UrlLinkRequest();
-        urlLinkRequest.setUserId(1L);
-        urlLinkRequest.setLongUrl("http://example.com");
-
-        mockMvc.perform(post("/v1/auth/user/createShortUrl")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userId\": 1, \"longUrl\": \"http://example.com\"}"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.shortUrl").value("shortUrl"))
-                .andExpect(jsonPath("$.longUrl").value("longUrl"))
-                .andExpect(jsonPath("$.username").value("TestUser"));
-    }
-
-    @Test
-    void getUserById_UserExists() {
+    void testGetUserById_UserFound() {
         Long userId = 1L;
         User user = new User();
-        user.setId(userId);
 
         when(userService.getUserByID(userId)).thenReturn(Optional.of(user));
+
         ResponseEntity<User> response = userController.getUserById(userId);
 
-        assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(user, response.getBody());
-
-        verify(userService, times(1)).getUserByID(userId);
     }
 
     @Test
-    void getUserById_UserNotExists() {
-        Long userId = 1L;
+    void testGetUserById_UserNotFound() {
+        Long userId = 2L;
 
         when(userService.getUserByID(userId)).thenReturn(Optional.empty());
+
         ResponseEntity<User> response = userController.getUserById(userId);
 
-        assertNull(response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(userService, times(1)).getUserByID(userId);
     }
 
-//    @Test
-//    void getAllActiveLinks_ReturnsActiveSetUrlLinks() {
-//        Long userId = 1L;
-//        User user = new User();
-//        user.setId(userId);
-//
-//        LocalDateTime dateTime = LocalDateTime.now();
-//        Set<UrlLink> links = Set.of(
-//                new UrlLink(1L, "http://example.com/1", "short1", dateTime, 0, dateTime.plusDays(1), user),
-//                new UrlLink(2L, "http://example.com/2", "short2", dateTime, 0, dateTime.minusDays(1), user),
-//                new UrlLink(3L, "http://example.com/3", "short3", dateTime, 0, dateTime.plusDays(2), user)
-//        );
-//
-//        when(urlService.getAllLinksFromRedis()).thenReturn(links);
-//
-//        Set<UrlLink> result = userController.getAllActiveLinks(userId);
-//
-//        Set<UrlLink> activeLinks = links.stream()
-//                .filter(link -> dateTime.isBefore(link.getExpirationDate()))
-//                .collect(Collectors.toSet());
-//
-//        assertEquals(activeLinks, result);
-//    }
+    @Test
+    void testCreateShortUrl() {
+        UrlLinkRequest urlLinkRequest = new UrlLinkRequest();
+        UrlLinkResponce urlLinkResponse = new UrlLinkResponce();
 
+        when(userUrlHelper.createShortUrl(urlLinkRequest)).thenReturn(urlLinkResponse);
+
+        UrlLinkResponce response = userController.createShortUrl(urlLinkRequest);
+
+        assertEquals(urlLinkResponse, response);
+    }
 
     @Test
-    void getAllLinks() {
+    void testGetAllActiveLinks() {
         Long userId = 1L;
-        User user = new User();
-        user.setId(userId);
+        Set<UrlLink> urlLinks = Set.of(new UrlLink());
 
-        LocalDateTime dateTime = LocalDateTime.now();
-        Set<UrlLink> links = Set.of(
-                new UrlLink(1L, "http://example.com/1", "short1",
-                        dateTime, 0, dateTime.plusDays(1), user),
-                new UrlLink(2L, "http://example.com/2", "short2",
-                        dateTime, 0, dateTime.minusDays(1), user),
-                new UrlLink(3L, "http://example.com/3", "short3",
-                        dateTime, 0, dateTime.plusDays(2), user)
-        );
+        when(userUrlHelper.getAllActiveLinks(userId)).thenReturn(urlLinks);
 
-        when(urlService.findAllShortLinksByUserID(userId)).thenReturn(links);
+        Set<UrlLink> response = userController.getAllActiveLinks(userId);
 
-        Set<UrlLink> allLinks = userController.getAllLinks(userId);
-
-        assertEquals(allLinks, links);
+        assertEquals(urlLinks, response);
     }
 
     @Test
-    void deleteLink_Successful() {
-        LocalDateTime dateTime = LocalDateTime.now();
+    void testGetAllLinks() {
+        Long userId = 1L;
+        Set<UrlLink> urlLinks = Set.of(new UrlLink());
+
+        when(userUrlHelper.getAllLinks(userId)).thenReturn(urlLinks);
+
+        Set<UrlLink> response = userController.getAllLinks(userId);
+
+        assertEquals(urlLinks, response);
+    }
+
+    @Test
+    void testDeleteLink_Successful() {
         Long userId = 1L;
         Long linkId = 1L;
-        User user = new User();
-        UrlLink link = new UrlLink(linkId, "http://example.com/1", "short1",
-                dateTime, 0, dateTime.plusDays(1), user);
-        user.setId(userId);
-        user.setLinks(Set.of(link));
+        String successMessage = "Link deleted successfully";
 
-        when(urlService.deleteUrlById(userId, linkId)).thenReturn(1);
+        when(userUrlHelper.deleteLink(userId, linkId)).thenReturn(ResponseEntity.ok(successMessage));
 
         ResponseEntity<String> response = userController.deleteLink(userId, linkId);
 
-        assertEquals("Посилання було успішно видалено", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        verify(urlService, times(1)).deleteUrlById(userId, linkId);
+        assertEquals(successMessage, response.getBody());
     }
 
     @Test
-    void deleteLink_LinkNotExist() {
+    void testDeleteLink_LinkNotExist() {
         Long userId = 1L;
         Long linkId = 1L;
-        User user = new User();
-        user.setId(userId);
 
-        when(urlService.deleteUrlById(userId, linkId)).thenReturn(0);
+        when(userUrlHelper.deleteLink(userId, linkId)).thenReturn(ResponseEntity.notFound().build());
 
         ResponseEntity<String> response = userController.deleteLink(userId, linkId);
 
-        assertNull(response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(urlService, times(1)).deleteUrlById(userId, linkId);
+        assertNull(response.getBody());
     }
 }

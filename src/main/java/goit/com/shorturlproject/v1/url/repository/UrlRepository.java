@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public interface UrlRepository extends JpaRepository<UrlLink, Long> {
     @Query("SELECT ul.longUrl FROM UrlLink ul WHERE ul.shortUrl = :shortUrl")
     Optional<String> findLongUrlByShortUrl(@Param("shortUrl") String shortUrl);
 
-    Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
+    List<UrlLink> findUrlLinkByLongUrl(String longUrl);
 
     @Modifying
     @Query("UPDATE UrlLink ul SET ul.clickTimes = :clickTimes WHERE ul.shortUrl = :shortUrl")

@@ -12,7 +12,7 @@ import java.util.Set;
 public interface UrlService {
     UrlLink saveAndFlush(String shortUrl, String longUrl, User user);
 
-    Optional<UrlLink> findUrlLinkByLongUrl(String longUrl);
+    List<UrlLink> findUrlLinkByLongUrl(String longUrl);
 
     UrlLink findUrlLinkByShortUrl(String shortUrl);
 
