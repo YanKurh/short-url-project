@@ -1,13 +1,16 @@
 package goit.com.shorturlproject.v1.user.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
+
 import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkRequest;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
+
 import goit.com.shorturlproject.v1.user.service.UserService;
+
+
 import goit.com.shorturlproject.v1.user.service.UserUrlHelper;
-import goit.com.shorturlproject.v1.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,16 +28,20 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("v1/auth/user")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserUrlHelper userUrlHelper;
 
-    @Qualifier("urlService")
-    private final UrlService urlServise;
+
+    private final UrlService urlService;
 
     private final UserService userService;
 
+    public UserController(UserUrlHelper userUrlHelper, UrlService urlService, UserService userService) {
+        this.userUrlHelper = userUrlHelper;
+        this.urlService = urlService;
+        this.userService = userService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -65,7 +72,7 @@ public class UserController {
     @GetMapping("/{id}/allActiveLinks")
     public Set<UrlLink> getAllActiveLinks(@PathVariable Long id){
         LocalDateTime dateTime = LocalDateTime.now();
-        Set<UrlLink> links = urlServise.findAllShortLinksByUserID(id);
+        Set<UrlLink> links = urlService.findAllShortLinksByUserID(id);
         Set<UrlLink> val = links.stream().filter(x -> dateTime.isBefore(x.getExpirationDate())).collect(Collectors.toSet());
         return val;
     }
@@ -77,7 +84,7 @@ public class UserController {
     })
     @GetMapping(value = "/{id}/allLinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<UrlLink> getAllLinks(@PathVariable Long id){
-        return urlServise.findAllShortLinksByUserID(id);
+        return urlService.findAllShortLinksByUserID(id);
     }
 
     @Operation(summary = "Delete the link by id", description = "Returns the status regarding the removal of the link")
@@ -87,7 +94,7 @@ public class UserController {
     })
     @DeleteMapping("/deleteLink/{id}")
     public ResponseEntity<String> deleteLink(@PathVariable Long id) {
-        boolean deleted = urlServise.deleteUrlById(id);
+        boolean deleted = urlService.deleteUrlById(id);
 
         if (deleted) {
             return ResponseEntity.ok("Посилання було успішно видалено"); // HTTP статус 200 OK

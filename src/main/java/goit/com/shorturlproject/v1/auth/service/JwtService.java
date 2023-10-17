@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+
     public String extractUsername(String token) {return extractClaim(token, Claims::getSubject);}
 
     public String generateToken(UserDetails userDetails) {

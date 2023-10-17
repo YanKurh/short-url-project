@@ -1,6 +1,5 @@
 package goit.com.shorturlproject.v1.auth.service;
-
-import goit.com.shorturlproject.v1.auth.dto.UserRequest;
+import goit.com.shorturlproject.v1.auth.request.RegisterRequest;
 import goit.com.shorturlproject.v1.auth.request.AuthenticationRequest;
 import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
@@ -26,7 +25,7 @@ public class AuthenticationService {
     private final UserService userServiceImpl;
 
 
-    public AuthenticationResponse register(UserRequest registerRequest) {
+    public AuthenticationResponse register(RegisterRequest registerRequest) {
         User user = new User();
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());

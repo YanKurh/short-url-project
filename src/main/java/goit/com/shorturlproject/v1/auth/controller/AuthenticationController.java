@@ -1,6 +1,6 @@
 package goit.com.shorturlproject.v1.auth.controller;
 
-import goit.com.shorturlproject.v1.auth.dto.UserRequest;
+import goit.com.shorturlproject.v1.auth.request.RegisterRequest;
 import goit.com.shorturlproject.v1.auth.request.AuthenticationRequest;
 import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
 import goit.com.shorturlproject.v1.auth.service.AuthenticationService;
@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid
-            @RequestBody UserRequest registerRequest
+            @RequestBody RegisterRequest registerRequest
     ) {
         return ResponseEntity.ok(service.register(registerRequest));
     }
