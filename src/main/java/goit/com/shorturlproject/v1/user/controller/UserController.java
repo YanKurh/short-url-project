@@ -1,7 +1,6 @@
 package goit.com.shorturlproject.v1.user.controller;
 
 import goit.com.shorturlproject.v1.url.dto.UrlLink;
-import goit.com.shorturlproject.v1.url.service.UrlService;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkRequest;
 import goit.com.shorturlproject.v1.user.dto.UrlLinkResponce;
 import goit.com.shorturlproject.v1.user.dto.User;
@@ -15,34 +14,28 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("v1/auth/user")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserUrlHelper userUrlHelper;
-
-
-    private final UrlService urlService;
-
     private final UserService userService;
-
-
     @Operation(summary = "Get a user by id", description = "Returns user by the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully"),
             @ApiResponse(responseCode = "404", description = "The user was not found")
     })
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserByID(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-  
+
     @Operation(summary = "Create new short link", description = "Returns a short link from a long link")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -50,9 +43,7 @@ public class UserController {
     })
     @PostMapping("/createShortUrl")
     public @ResponseBody UrlLinkResponce createShortUrl(@RequestBody UrlLinkRequest urlLinkRequest) {
-        User user = userUrlHelper.getUserById(urlLinkRequest.getUserId());
-        UrlLink urlLink = userUrlHelper.createShortUrlForUser(urlLinkRequest.getLongUrl(), user);
-        return new UrlLinkResponce(urlLink.getShortUrl(), urlLink.getLongUrl(), user.getLogin());
+        return userUrlHelper.createShortUrl(urlLinkRequest);
     }
 
     @Operation(summary = "Get all active links by id", description = "Returns a list of all active links as per the id")
@@ -62,12 +53,7 @@ public class UserController {
     })
     @GetMapping("/{id}/allActiveLinks")
     public Set<UrlLink> getAllActiveLinks(@PathVariable Long id) {
-        return urlService.getAllLinksFromRedis().stream()
-                .filter(link -> link.getUser().getId().equals(id))
-                .map(link -> urlService.findUrlLinkByLongUrl(link.getLongUrl()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toSet());
+        return userUrlHelper.getAllActiveLinks(id);
     }
 
 
@@ -77,8 +63,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
     @GetMapping(value = "/{id}/allLinks", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<UrlLink> getAllLinks(@PathVariable Long id){
-        return urlService.findAllShortLinksByUserID(id);
+    public Set<UrlLink> getAllLinks(@PathVariable Long id) {
+        return userUrlHelper.getAllLinks(id);
     }
 
     @Operation(summary = "Delete the link by id", description = "Returns the status regarding the removal of the link")
@@ -88,11 +74,6 @@ public class UserController {
     })
     @DeleteMapping("{userId}/deleteLink/{linkId}")
     public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable Long linkId) {
-
-        if (urlService.deleteUrlById(userId, linkId) != 0) {
-            return ResponseEntity.ok("Посилання було успішно видалено"); // HTTP статус 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // HTTP статус 404 Not Found
-        }
+        return userUrlHelper.deleteLink(userId, linkId);
     }
 }

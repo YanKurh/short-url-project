@@ -33,7 +33,6 @@ public class UrlLink {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
     public UrlLink(Long id, String longUrl, String shortUrl, LocalDateTime createdAt, int clickTimes, LocalDateTime expirationDate) {
@@ -48,12 +47,19 @@ public class UrlLink {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UrlLink urlLink)) return false;
-        return longUrl.equals(urlLink.longUrl) && shortUrl.equals(urlLink.shortUrl);
+        if (o == null || getClass() != o.getClass()) return false;
+        UrlLink urlLink = (UrlLink) o;
+        return clickTimes == urlLink.clickTimes &&
+                Objects.equals(id, urlLink.id) &&
+                Objects.equals(longUrl, urlLink.longUrl) &&
+                Objects.equals(shortUrl, urlLink.shortUrl) &&
+                Objects.equals(createdAt, urlLink.createdAt) &&
+                Objects.equals(expirationDate, urlLink.expirationDate) &&
+                Objects.equals(user, urlLink.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(longUrl, shortUrl);
+        return Objects.hash(id, longUrl, shortUrl, createdAt, clickTimes, expirationDate, user);
     }
 }

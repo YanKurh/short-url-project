@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import goit.com.shorturlproject.v1.registration.validation.PasswordMatching;
 import goit.com.shorturlproject.v1.registration.validation.StrongPassword;
 import goit.com.shorturlproject.v1.registration.validation.ValidEmail;
@@ -57,8 +58,9 @@ public class User {
 
     private String login;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private transient Set<UrlLink> links;
+    private Set<UrlLink> links;
 
     public User() {
         links = new HashSet<>();
