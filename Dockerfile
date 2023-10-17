@@ -7,6 +7,7 @@ ENV PROD_SECURITY_PASS default
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV DOMAIN=http://localhost:8080/v1/
+ENV JWT_KEY=2f346e86d347447a64dd1223bc9a2b7eeabc4c58aa7b4445bb6ab957a91d0868
 
 WORKDIR /app
 ADD build/libs/Link-V1.0.0.jar app.jar

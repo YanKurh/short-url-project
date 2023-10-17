@@ -18,7 +18,7 @@ public class UserEntityTest implements ITestContainer {
     @Test
     void testUserEntity() {
         User user = new User("John", "Doe", "john@example.com",
-                "john_doe", "T1234567");
+                "john_doe", "T1234567", Role.USER);
 
         User savedUser = entityManager.persistAndFlush(user);
 
