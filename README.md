@@ -13,5 +13,5 @@ REDIS_HOST=localhost;
 REDIS_PORT=6379;
 JWT_KEY=2f346e86d347447a64dd1223bc9a2b7eeabc4c58aa7b4445bb6ab957a91d0868;
 
-API DOC = http://localhost:8080/api-docs
-SWAGGER UI = http://localhost:8080/swagger-ui/index.html
+API DOC = http://localhost:8080/v1/api-docs
+SWAGGER UI = http://localhost:8080/v1/swagger-ui/index.html
