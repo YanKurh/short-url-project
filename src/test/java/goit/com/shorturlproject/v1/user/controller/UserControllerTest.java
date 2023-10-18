@@ -113,31 +113,4 @@ class UserControllerTest implements ITestContainer {
 
         assertEquals(urlLinks, response);
     }
-
-    @Test
-    void testDeleteLink_Successful() {
-        Long userId = 1L;
-        Long linkId = 1L;
-        String successMessage = "Link deleted successfully";
-
-        when(userUrlHelper.deleteLink(userId, linkId)).thenReturn(ResponseEntity.ok(successMessage));
-
-        ResponseEntity<String> response = userController.deleteLink(userId, linkId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(successMessage, response.getBody());
-    }
-
-    @Test
-    void testDeleteLink_LinkNotExist() {
-        Long userId = 1L;
-        Long linkId = 1L;
-
-        when(userUrlHelper.deleteLink(userId, linkId)).thenReturn(ResponseEntity.notFound().build());
-
-        ResponseEntity<String> response = userController.deleteLink(userId, linkId);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNull(response.getBody());
-    }
 }

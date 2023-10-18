@@ -1,4 +1,5 @@
 package goit.com.shorturlproject.v1.registration.exception;
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
@@ -14,7 +15,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class ValidationExceptionHandlerTest {
+class ValidationExceptionHandlerTest implements ITestContainer {
 
     private ValidationExceptionHandler validationExceptionHandler;
 

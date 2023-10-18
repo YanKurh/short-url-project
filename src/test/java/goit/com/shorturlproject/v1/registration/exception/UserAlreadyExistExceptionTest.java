@@ -1,10 +1,11 @@
 package goit.com.shorturlproject.v1.registration.exception;
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class UserAlreadyExistExceptionTest {
+public class UserAlreadyExistExceptionTest implements ITestContainer {
 
     @Test
     public void testUserAlreadyExistExceptionWithoutMessageAndCause() {

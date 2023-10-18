@@ -6,6 +6,7 @@ import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
 import goit.com.shorturlproject.v1.auth.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> register(@Valid
             @RequestBody RegisterRequest registerRequest
     ) {
         return ResponseEntity.ok(service.register(registerRequest));

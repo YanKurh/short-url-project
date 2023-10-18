@@ -57,8 +57,8 @@ public class UserUrlHelper {
         return urlService.findAllShortLinksByUserID(userId);
     }
 
-    public ResponseEntity<String> deleteLink(Long userId, Long linkId) {
-        if (urlService.deleteUrlById(userId, linkId) != 0) {
+    public ResponseEntity<String> deleteLink(Long userId, String shortUrl) {
+        if (urlService.deleteUrlById(userId, shortUrl) != 0) {
             return ResponseEntity.ok("Link was successfully deleted");
         } else {
             return ResponseEntity.notFound().build();

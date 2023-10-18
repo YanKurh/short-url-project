@@ -4,12 +4,12 @@ import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.registration.exception.UserAlreadyExistException;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ class UserServiceImplTest implements ITestContainer {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -74,6 +74,7 @@ class UserServiceImplTest implements ITestContainer {
 
         assertEquals(Optional.empty(), resultUser);
     }
+
     @Test
     void testRegisterNewUserAccount_UserDoesNotExist() {
 

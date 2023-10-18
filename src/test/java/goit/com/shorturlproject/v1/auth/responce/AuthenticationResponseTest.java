@@ -1,11 +1,12 @@
 package goit.com.shorturlproject.v1.auth.responce;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class AuthenticationResponseTest {
+public class AuthenticationResponseTest implements ITestContainer {
 
     @Test
     public void testAuthenticationResponseWithToken() {

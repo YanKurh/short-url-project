@@ -79,8 +79,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
     @SecurityRequirement(name = "Bearer Authentication")
-    @DeleteMapping("{userId}/deleteLink/{linkId}")
-    public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable Long linkId) {
-        return userUrlHelper.deleteLink(userId, linkId);
+    @DeleteMapping("{userId}/deleteLink/{shortUrl}")
+    public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable String shortUrl) {
+        return userUrlHelper.deleteLink(userId, shortUrl);
     }
 }

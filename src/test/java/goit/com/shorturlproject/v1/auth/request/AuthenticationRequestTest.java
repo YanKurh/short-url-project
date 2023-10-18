@@ -1,10 +1,11 @@
 package goit.com.shorturlproject.v1.auth.request;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AuthenticationRequestTest {
+class AuthenticationRequestTest implements ITestContainer {
 
     @Test
     void testEquals() {

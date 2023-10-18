@@ -1,10 +1,11 @@
 package goit.com.shorturlproject.v1.user.dto;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UrlLinkResponceTest {
+class UrlLinkResponceTest implements ITestContainer {
 
     @Test
     void testGettersAndSetters() {

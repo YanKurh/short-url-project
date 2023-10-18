@@ -1,4 +1,5 @@
 package goit.com.shorturlproject.v1.auth.service;
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.auth.request.RegisterRequest;
 import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
 import goit.com.shorturlproject.v1.user.dto.User;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class AuthenticationServiceTest {
+public class AuthenticationServiceTest implements ITestContainer {
 
     @InjectMocks
     private AuthenticationService authenticationService;
