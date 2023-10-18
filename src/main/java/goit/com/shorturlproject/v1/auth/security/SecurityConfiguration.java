@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                                 AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                 AntPathRequestMatcher.antMatcher("/v1/register"),
                                 AntPathRequestMatcher.antMatcher("/v1/**/short"),
-                                AntPathRequestMatcher.antMatcher("/v1/api-docs/**"),
+                                AntPathRequestMatcher.antMatcher("/url-shortener/v1/api-docs/**"),
                                 AntPathRequestMatcher.antMatcher("/v1/swagger-ui-shortener_url.html"),
                                 AntPathRequestMatcher.antMatcher("/v1/swagger-ui/**")
                         ).permitAll()

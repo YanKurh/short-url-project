@@ -9,6 +9,7 @@ import goit.com.shorturlproject.v1.user.service.UserUrlHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully"),
             @ApiResponse(responseCode = "404", description = "The user was not found")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserByID(id);
@@ -42,6 +44,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "The link does not exist or was not found")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping("/createShortUrl")
     public @ResponseBody UrlLinkResponce createShortUrl(@RequestBody UrlLinkRequest urlLinkRequest) {
         return userUrlHelper.createShortUrl(urlLinkRequest);
@@ -52,6 +55,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/{id}/allActiveLinks")
     public Set<UrlLink> getAllActiveLinks(@PathVariable Long id) {
         return userUrlHelper.getAllActiveLinks(id);
@@ -63,6 +67,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}/allLinks", produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<UrlLink> getAllLinks(@PathVariable Long id) {
         return userUrlHelper.getAllLinks(id);
@@ -73,6 +78,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),
             @ApiResponse(responseCode = "404", description = "The user with the specified ID was not found")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
     @DeleteMapping("{userId}/deleteLink/{linkId}")
     public ResponseEntity<String> deleteLink(@PathVariable Long userId, @PathVariable Long linkId) {
         return userUrlHelper.deleteLink(userId, linkId);
