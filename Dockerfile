@@ -15,4 +15,3 @@ ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
 
 #gradle build
 #docker build -t app-prod:v1 .
-#docker run --name link-app -d -p 8080:8080 app-prod:v1
