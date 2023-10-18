@@ -13,5 +13,15 @@ REDIS_HOST=localhost;
 REDIS_PORT=6379;
 JWT_KEY=2f346e86d347447a64dd1223bc9a2b7eeabc4c58aa7b4445bb6ab957a91d0868;
 
+Links for OpenAPI 3.0:
 API DOC = http://localhost:8080/url-shortener/v1/api-docs
 SWAGGER UI = http://localhost:8080/v1/swagger-ui-shortener_url.html
+
+For local start:
+docker-compose -f docker-compose.local.yml up -d
+Run main ShortUrlProjectApplication.java
+
+For production start:
+gradlew build
+docker build -t app-prod:v1 .
+docker-compose -f docker-compose.prod.yml up -d
