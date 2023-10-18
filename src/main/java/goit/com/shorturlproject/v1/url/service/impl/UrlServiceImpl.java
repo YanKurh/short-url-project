@@ -75,9 +75,10 @@ public class UrlServiceImpl implements UrlService {
 
     @Transactional
     @Override
-    public int deleteUrlById(Long userId, Long linkId) {
+    public int deleteUrlById(Long userId, String shortUrl) {
         try {
-            return urlRepository.deleteUrlLinkById(userId, linkId);
+            valueOperations.getOperations().delete(shortUrl);
+            return urlRepository.deleteUrlLinkById(userId, shortUrl);
         } catch (Exception e) {
             return 0;
         }

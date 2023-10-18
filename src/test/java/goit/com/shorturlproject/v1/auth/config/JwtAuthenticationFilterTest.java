@@ -1,4 +1,5 @@
 package goit.com.shorturlproject.v1.auth.config;
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.auth.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JwtAuthenticationFilterTest {
+public class JwtAuthenticationFilterTest implements ITestContainer {
 
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     private JwtService jwtService;

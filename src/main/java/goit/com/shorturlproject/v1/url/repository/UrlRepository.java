@@ -32,6 +32,6 @@ public interface UrlRepository extends JpaRepository<UrlLink, Long> {
     //Запрос на удаление ссылки по его id
     //Request to delete a link by its id
     @Modifying
-    @Query("DELETE FROM UrlLink ul WHERE ul.user.id = :userId and ul.id = :urlLinkId")
-    int deleteUrlLinkById(@Param("userId") Long userId, @Param("urlLinkId") Long urlLinkId);
+    @Query("DELETE FROM UrlLink ul WHERE ul.user.id = :userId and ul.shortUrl= :shortUrl")
+    int deleteUrlLinkById(@Param("userId") Long userId, @Param("shortUrl") String shortUrl);
 }

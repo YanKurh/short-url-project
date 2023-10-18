@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.auth.config;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.user.dto.User;
 import goit.com.shorturlproject.v1.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 import static org.mockito.Mockito.*;
 
-public class ApplicationConfigTest {
+public class ApplicationConfigTest implements ITestContainer {
 
     private ApplicationConfig applicationConfig;
     private UserRepository userRepository;

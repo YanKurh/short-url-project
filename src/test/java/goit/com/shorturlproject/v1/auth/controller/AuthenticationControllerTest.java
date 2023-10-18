@@ -1,5 +1,6 @@
 package goit.com.shorturlproject.v1.auth.controller;
 
+import goit.com.shorturlproject.v1.ITestContainer;
 import goit.com.shorturlproject.v1.auth.request.AuthenticationRequest;
 import goit.com.shorturlproject.v1.auth.request.RegisterRequest;
 import goit.com.shorturlproject.v1.auth.responce.AuthenticationResponse;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class AuthenticationControllerTest {
+public class AuthenticationControllerTest implements ITestContainer {
 
     private AuthenticationController authenticationController;
     private AuthenticationService authenticationService;
