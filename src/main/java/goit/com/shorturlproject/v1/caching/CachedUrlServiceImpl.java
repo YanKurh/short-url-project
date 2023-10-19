@@ -14,7 +14,7 @@ public class CachedUrlServiceImpl {
 
     private final UrlServiceImpl urlService;
 
-    @Cacheable(value="urlCache", key = "#shortUrl")
+   @Cacheable(value="urlCache", key = "#shortUrl")
     public UrlLink saveAndFlush(String shortUrl, String longUrl, User user){
         return urlService.saveAndFlush(shortUrl, longUrl, user);
     }

@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class UrlServiceImpl implements UrlService {
@@ -87,16 +85,15 @@ public class UrlServiceImpl implements UrlService {
     @Override
     public Set<UrlLink> getAllLinksFromRedis() {
         Set<String> keys = valueOperations.getOperations().keys("*");
-        Set<UrlLink> urlLinks = new HashSet<>();
 
-        for (String key : Objects.requireNonNull(keys)) {
-            UrlLink urlLink = valueOperations.get(key);
-            if (urlLink != null) {
-                urlLinks.add(urlLink);
-            }
-        }
+        return Optional.ofNullable(keys)
+                .orElseGet(HashSet::new)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(valueOperations::get)
+                .collect(Collectors.toSet());
 
-        return urlLinks;
+
     }
 
     private void saveToRedis(String shortUrl, UrlLink urlLink) {
