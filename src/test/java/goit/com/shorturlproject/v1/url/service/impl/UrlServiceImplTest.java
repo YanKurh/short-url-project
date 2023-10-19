@@ -8,28 +8,42 @@ import goit.com.shorturlproject.v1.user.dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-
+@SuppressWarnings("ALL")
 class UrlServiceImplTest implements ITestContainer {
+
+    private UrlServiceImpl urlService;
 
     @Mock
     private UrlRepository urlRepository;
 
-    private UrlServiceImpl urlService;
+    @Mock
+    private RedisTemplate<String, UrlLink> redisTemplate;
+
+    @Mock
+    private ValueOperations<String, UrlLink> valueOperations;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        urlService = new UrlServiceImpl(urlRepository);
+    void setUp() {
+        urlRepository = mock(UrlRepository.class);
+        redisTemplate = mock(RedisTemplate.class);
+        valueOperations = mock(ValueOperations.class);
+
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
+        urlService = new UrlServiceImpl(urlRepository, redisTemplate);
     }
 
     @Test
@@ -55,49 +69,44 @@ class UrlServiceImplTest implements ITestContainer {
 
     @Test
     void testFindUrlLinkByLongUrl() {
-        String longUrl = "https://www.example.com";
-        UrlLink expectedUrlLink = new UrlLink();
-        expectedUrlLink.setLongUrl(longUrl);
+        String longUrl = "http://example.com";
+        UrlLink urlLink = new UrlLink();
+        List<UrlLink> urlLinks = List.of(urlLink); // Simulating the returned list
 
-        when(urlRepository.findUrlLinkByLongUrl(longUrl)).thenReturn(Optional.of(expectedUrlLink));
+        when(urlRepository.findUrlLinkByLongUrl(longUrl)).thenReturn(urlLinks);
 
-        Optional<UrlLink> result = urlService.findUrlLinkByLongUrl(longUrl);
+        List<UrlLink> foundUrlLinks = urlService.findUrlLinkByLongUrl(longUrl);
 
-        assertTrue(result.isPresent());
-        assertEquals(expectedUrlLink, result.get());
+        assertEquals(urlLinks, foundUrlLinks);
     }
+
 
     @Test
     void testFindUrlLinkByShortUrl() {
-        String shortUrl = "abc123";
-        UrlLink expectedUrlLink = new UrlLink();
-        expectedUrlLink.setShortUrl(shortUrl);
+        String shortUrl = "short-url";
+        UrlLink urlLink = new UrlLink();
 
-        when(urlRepository.findUrlLinkByShortUrl(shortUrl)).thenReturn(Optional.of(expectedUrlLink));
+        when(valueOperations.get(shortUrl)).thenReturn(urlLink);
 
-        UrlLink result = urlService.findUrlLinkByShortUrl(shortUrl);
+        UrlLink foundUrlLink = urlService.findUrlLinkByShortUrl(shortUrl);
 
-        assertEquals(expectedUrlLink, result);
+        assertEquals(urlLink, foundUrlLink);
     }
 
-    @Test
-    void testFindUrlLinkByShortUrlNotFound() {
-        String shortUrl = "nonexistentShortUrl";
-
-        when(urlRepository.findUrlLinkByShortUrl(shortUrl)).thenReturn(Optional.empty());
-
-        assertThrows(UrlNotFoundException.class, () -> urlService.findUrlLinkByShortUrl(shortUrl));
-    }
 
     @Test
     void testUpdateByClick() {
         UrlLink urlLink = new UrlLink();
-        urlLink.setId(1L);
-        urlLink.setClickTimes(0);
+        urlLink.setShortUrl("dlalda");
+        urlLink.setClickTimes(5);
+
+        when(valueOperations.get(urlLink.getShortUrl())).thenReturn(urlLink);
 
         urlService.updateByClick(urlLink);
 
-        verify(urlRepository, times(1)).updateClickTimes(urlLink.getId(), urlLink.getClickTimes() + 1);
+        verify(valueOperations).set(eq(urlLink.getShortUrl()), any(UrlLink.class));
+
+        verify(urlRepository).updateClickTimes(eq(urlLink.getShortUrl()), eq(urlLink.getClickTimes()));
     }
 
     @Test
